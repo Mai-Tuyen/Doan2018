@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace DigitalShop.Model.Entity
+namespace DigitalShop.Entity
 {
     public class Product
     {
@@ -23,9 +23,6 @@ namespace DigitalShop.Model.Entity
         public DateTime CreateAt { get; set; }
         [ForeignKey("Admin")]
         public int CreateBy { get; set; }
-        public DateTime ModifieAt { get; set; }
-        [ForeignKey("Admin")]
-        public int ModifieBy { get; set; }
         public int ViewCount { get; set; }
         public int Quantity { get; set; }
         public bool Status { get; set; }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace DigitalShop.Model.Entity
+namespace DigitalShop.Entity
 {
     public class Order
     {

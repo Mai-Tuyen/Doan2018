@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalShop", "DigitalShop\DigitalShop.csproj", "{5A06E47E-0245-43FC-BB16-9D3C81252825}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalShop.Model", "DigitalShop.Model\DigitalShop.Model.csproj", "{87167495-29FF-4038-996A-4BCEF85450FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalShop.Entity", "DigitalShop.Model\DigitalShop.Entity.csproj", "{87167495-29FF-4038-996A-4BCEF85450FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitialShop.Service", "DigitialShop.Service\DigitialShop.Service.csproj", "{0E8AE061-86CA-482D-8DEC-8B4CE1F290B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalShop.Service", "DigitialShop.Service\DigitalShop.Service.csproj", "{0E8AE061-86CA-482D-8DEC-8B4CE1F290B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

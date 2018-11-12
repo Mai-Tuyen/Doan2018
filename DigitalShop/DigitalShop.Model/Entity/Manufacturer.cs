@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace DigitalShop.Model.Entity
+namespace DigitalShop.Entity
 {
     public class Manufacturer
     {
