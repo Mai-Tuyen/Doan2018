@@ -21,12 +21,13 @@ namespace DigitalShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
-            services.AddDbContext<DigitalDBContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            //services.AddDbContext<DigitalDBContext>(options =>
+            //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            var connectionString = Configuration["connectionStrings:DigitalShopConnectionString"];
+            services.AddDbContext<DigitalDBContext>(x => x.UseSqlServer(connectionString));
             services.AddMvc();
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -44,9 +45,9 @@ namespace DigitalShop
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                //routes.MapRoute(
+                //    name: "default",
+                //    template: "{controller=Home}/{action=Index}/{id?}");
 
                 //routes.MapAreaRoute(
                 //    name: "adminHome",

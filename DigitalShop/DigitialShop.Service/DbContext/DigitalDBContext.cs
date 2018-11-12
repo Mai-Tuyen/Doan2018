@@ -5,6 +5,9 @@ namespace DigitalShop.Service
 {
     public class DigitalDBContext : DbContext
     {
+        public DigitalDBContext(DbContextOptions<DigitalDBContext> options):base(options)
+        {
+        }
 
         public DbSet<Admin> Admin { get; set; }
         public DbSet<Category> Category { get; set; }

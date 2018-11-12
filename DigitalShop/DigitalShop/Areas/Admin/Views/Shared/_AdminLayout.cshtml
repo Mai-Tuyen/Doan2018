@@ -383,8 +383,8 @@
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="/Admin/vendor/jquery/jquery.min.js"></script>
-
+    <script src="/Admin/vendor/jquery/jquery.min.js" type="text/javascript"></script>
+    @*<script src="~/Admin/vendor/jquery/jquery.min.js"></script>*@
     <!-- Bootstrap Core JavaScript -->
     <script src="/Admin/vendor/bootstrap/js/bootstrap.min.js"></script>
 
@@ -414,7 +414,7 @@
         {
             $.ajax({
                     type: "HttpGet",
-                    url: 'Admin\@Url.Action("GetListCategory","AdminCategory"@*,new { area = "Admin"}*@)',
+                    url: '@Url.Action("GetListCategory","AdminCategory",new { area = "Admin"})',
                     data: {},
                     success: function (response) {
                         $("#contentAdmin").html("");
