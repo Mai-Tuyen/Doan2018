@@ -413,7 +413,7 @@
         function category()
         {
             $.ajax({
-                    type: "HttpGet",
+                    method: "get",
                     url: '@Url.Action("GetListCategory","AdminCategory",new { area = "Admin"})',
                     data: {},
                     success: function (response) {

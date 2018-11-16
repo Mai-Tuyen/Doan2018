@@ -13,5 +13,6 @@ namespace DigitalShop.Models
         public string Name { get; set; }
         [DisplayName("Status")]
         public bool Status { get; set; }
+        public bool IsUpdate { get; set; }
     }
 }

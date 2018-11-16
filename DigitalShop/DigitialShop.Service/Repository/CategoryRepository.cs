@@ -20,7 +20,7 @@ namespace DigitialShop.Service.Repository
             context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Deactive(int id)
         {
             var category = context.Category.Find(id);
             category.Status = false;
@@ -34,13 +34,11 @@ namespace DigitialShop.Service.Repository
 
         public List<Category> GetListCategory()
         {
-            return context.Category.Where(x => x.Status == true).ToList();
+            return context.Category.ToList();
         }
 
-        public void Update(int id)
+        public void Save()
         {
-            var category = context.Category.Find(id);
-            context.Category.Update(category);
             context.SaveChanges();
         }
     }

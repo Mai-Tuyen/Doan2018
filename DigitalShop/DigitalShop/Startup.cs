@@ -45,15 +45,18 @@ namespace DigitalShop
 
             app.UseMvc(routes =>
             {
-                //routes.MapRoute(
-                //    name: "default",
-                //    template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                name: "area",
+                template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
 
                 //routes.MapAreaRoute(
                 //    name: "adminHome",
                 //    areaName: "Admin",routes.MapRoute("areaRoute", "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
                 //    template: "{controller=Home}/{action=Index}/admin/{id?}");
-                routes.MapRoute("Admin","{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                //routes.MapRoute("Admin","{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
