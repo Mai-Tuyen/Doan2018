@@ -11,6 +11,6 @@ namespace DigitalShop.Service.IRepository
         List<Category> GetListCategory();
         void Add(Category category);
         void Save();
-        void Deactive(int id);
-    }
+        void Deactivate(int id);
+    }   
 }

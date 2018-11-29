@@ -16,37 +16,41 @@
                                     Name
                                 </th>
                                 <th>
-                                    Status
+                                    Activate
                                 </th>
-                                <th></th>
+                                <th>
+                                    Action
+                                </th>
                             </tr>
                         </thead>
                         @if (Model.Count() != 0)
                         {
-                            foreach (var item in Model)
-                            {
-                                <tbody>
-                                    <tr class="odd gradeX">
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Name)
-                                        </td>
-                                        <td>
-                                            @if (item.Status==true)
-                                            {
-                                                <p style="color:darkgreen">Activate</p>
-                                            }
-                                            else
-                                            {
-                                                <p style="color:red">Deactivate</p>
-                                            }
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn-primary" onclick="EditAction(@item.Id)" id="btnEdit">Edit</button>
-                                            <button type="button" class="btn-danger" onclick="Deactive(@item.Id)">Deactive</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            }
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+
+                                <tr class="odd gradeX">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @if (item.Status == true)
+                                        {
+                                            <p style="color:darkgreen">Activate</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="color:red">Deactivate</p>
+                                        }
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn-primary" onclick="EditAction(@item.Id)" id="btnEdit">Edit</button>
+                                        <button type="button" class="btn-danger" onclick="Deactive(@item.Id)">Deactive</button>
+                                    </td>
+                                </tr>
+
+                                }
+                            </tbody>
                         }
                     </table>
                     <!--Modal Update-->
@@ -61,12 +65,13 @@
             <!-- /.panel-body -->
         </div>
         <!-- /.panel -->
-        </div>
     </div>
+</div>
 
 <script type="text/javascript">
     function GetData() {
         $.ajax({
+            async: true,
             method: "GET",
             dataType: "html",
             url: '@Url.Action("GetListCategory", "AdminCategory")',
@@ -83,12 +88,13 @@
 
     function Deactive(id) {
         $.ajax({
+            async: true,
             method: "Get",
             dataType: "html",
             url: '@Url.Action("Deactive", "AdminCategory")',
             data: {id : id},
             success: function () {
-                alert('Delete successfullly !');
+                alert('Deactive successfullly !');
                 GetData();
             }
         })
@@ -97,6 +103,7 @@
 
     function EditAction(id) {
         $.ajax({
+            async: true,
             method: "Get",
             url: '@Url.Action("EditAction", "AdminCategory")',
             data: { id: id },
@@ -108,8 +115,9 @@
     }
     var actionName;
     function submitUpdate() {
-        
+
         $.ajax({
+            async: true,
             method: "Post",
             url: '@Url.Action("Update", "AdminCategory")',
             data: {
@@ -121,11 +129,11 @@
                 }
             },
             success: function () {
-                if (object.IsUpdate == true) {
-                    alert("Update Successfully !");
+                if ($("#IsUpdate").val() == true) {
+                    alert("Successfully !");
                 }
                 else {
-                    alert("Create Successfully !");
+                    alert("Successfully !");
                 }
                 GetData();
             },
@@ -142,4 +150,12 @@
 
     }
 
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
 </script>

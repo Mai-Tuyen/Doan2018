@@ -19,7 +19,7 @@ namespace DigitialShop.Service.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DigitalShop.Model.Admin", b =>
+            modelBuilder.Entity("DigitalShop.Entity.Admin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,7 +38,7 @@ namespace DigitialShop.Service.Migrations
                     b.ToTable("Admin");
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.Category", b =>
+            modelBuilder.Entity("DigitalShop.Entity.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,7 +53,7 @@ namespace DigitialShop.Service.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.Customer", b =>
+            modelBuilder.Entity("DigitalShop.Entity.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,7 +79,7 @@ namespace DigitialShop.Service.Migrations
                     b.ToTable("Customer");
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.ImagesDetail", b =>
+            modelBuilder.Entity("DigitalShop.Entity.ImagesDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,7 +96,7 @@ namespace DigitialShop.Service.Migrations
                     b.ToTable("ImagesDetail");
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.Import", b =>
+            modelBuilder.Entity("DigitalShop.Entity.Import", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -118,7 +118,7 @@ namespace DigitialShop.Service.Migrations
                     b.ToTable("Import");
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.ImportDetail", b =>
+            modelBuilder.Entity("DigitalShop.Entity.ImportDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -139,11 +139,13 @@ namespace DigitialShop.Service.Migrations
                     b.ToTable("ImportDetail");
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.Manufacturer", b =>
+            modelBuilder.Entity("DigitalShop.Entity.Manufacturer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
 
                     b.Property<bool>("Status");
 
@@ -152,7 +154,7 @@ namespace DigitialShop.Service.Migrations
                     b.ToTable("Manufacturer");
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.Order", b =>
+            modelBuilder.Entity("DigitalShop.Entity.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -179,7 +181,7 @@ namespace DigitialShop.Service.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.OrderDetail", b =>
+            modelBuilder.Entity("DigitalShop.Entity.OrderDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -200,15 +202,13 @@ namespace DigitialShop.Service.Migrations
                     b.ToTable("OrderDetail");
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.Product", b =>
+            modelBuilder.Entity("DigitalShop.Entity.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CategoryId");
-
-                    b.Property<string>("Code");
 
                     b.Property<DateTime>("CreateAt");
 
@@ -243,69 +243,69 @@ namespace DigitialShop.Service.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.ImagesDetail", b =>
+            modelBuilder.Entity("DigitalShop.Entity.ImagesDetail", b =>
                 {
-                    b.HasOne("DigitalShop.Model.Product", "Product")
+                    b.HasOne("DigitalShop.Entity.Product", "Product")
                         .WithMany("ImagesDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.Import", b =>
+            modelBuilder.Entity("DigitalShop.Entity.Import", b =>
                 {
-                    b.HasOne("DigitalShop.Model.Admin", "Admin")
+                    b.HasOne("DigitalShop.Entity.Admin", "Admin")
                         .WithMany("Imports")
                         .HasForeignKey("CreateBy")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.ImportDetail", b =>
+            modelBuilder.Entity("DigitalShop.Entity.ImportDetail", b =>
                 {
-                    b.HasOne("DigitalShop.Model.Import", "Import")
+                    b.HasOne("DigitalShop.Entity.Import", "Import")
                         .WithMany("ImportDetails")
                         .HasForeignKey("ImportId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DigitalShop.Model.Product", "Product")
+                    b.HasOne("DigitalShop.Entity.Product", "Product")
                         .WithMany("ImportDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.Order", b =>
+            modelBuilder.Entity("DigitalShop.Entity.Order", b =>
                 {
-                    b.HasOne("DigitalShop.Model.Customer", "Customer")
+                    b.HasOne("DigitalShop.Entity.Customer", "Customer")
                         .WithMany("Order")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.OrderDetail", b =>
+            modelBuilder.Entity("DigitalShop.Entity.OrderDetail", b =>
                 {
-                    b.HasOne("DigitalShop.Model.Order", "Order")
+                    b.HasOne("DigitalShop.Entity.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DigitalShop.Model.Product", "Product")
+                    b.HasOne("DigitalShop.Entity.Product", "Product")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DigitalShop.Model.Product", b =>
+            modelBuilder.Entity("DigitalShop.Entity.Product", b =>
                 {
-                    b.HasOne("DigitalShop.Model.Category", "Category")
+                    b.HasOne("DigitalShop.Entity.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DigitalShop.Model.Admin", "Admin")
+                    b.HasOne("DigitalShop.Entity.Admin", "Admin")
                         .WithMany("Products")
                         .HasForeignKey("CreateBy")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DigitalShop.Model.Manufacturer", "Manufacturer")
+                    b.HasOne("DigitalShop.Entity.Manufacturer", "Manufacturer")
                         .WithMany("Products")
                         .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Cascade);

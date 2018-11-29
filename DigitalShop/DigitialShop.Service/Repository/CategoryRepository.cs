@@ -20,7 +20,7 @@ namespace DigitialShop.Service.Repository
             context.SaveChanges();
         }
 
-        public void Deactive(int id)
+        public void Deactivate(int id)
         {
             var category = context.Category.Find(id);
             category.Status = false;

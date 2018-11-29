@@ -1,6 +1,7 @@
 ﻿using DigitalShop.Entity;
 using DigitalShop.Models;
 using DigitalShop.Service.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Linq;
 namespace DigitalShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class AdminCategoryController : Controller
     {
         private readonly ICategoryRepository categoryRepository;
@@ -41,7 +43,7 @@ namespace DigitalShop.Areas.Admin.Controllers
         {
             var category = categoryRepository.GetById(id);
             category.Status = false;
-            categoryRepository.Deactive(id);
+            categoryRepository.Deactivate(id);
         }
 
         public IActionResult EditAction(int? id)
@@ -56,7 +58,7 @@ namespace DigitalShop.Areas.Admin.Controllers
                                     {
                                         Id = s.Id,
                                         Name = s.Name,
-                                        Status = false,
+                                        Status = s.Status,
                                         IsUpdate = true,
                                     }).Single();
             }
