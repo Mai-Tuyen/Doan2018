@@ -70,8 +70,9 @@ namespace DigitalShop
             }
 
             app.UseStaticFiles();
-            app.UseAuthentication();
             app.UseCookiePolicy();
+            app.UseAuthentication();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
