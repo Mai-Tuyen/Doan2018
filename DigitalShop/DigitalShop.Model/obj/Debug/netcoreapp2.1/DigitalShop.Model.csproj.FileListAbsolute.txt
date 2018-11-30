@@ -1,0 +1,9 @@
+D:\DOAN\DigitalShop\DigitalShop.Model\bin\Debug\netcoreapp2.1\DigitalShop.Model.deps.json
+D:\DOAN\DigitalShop\DigitalShop.Model\bin\Debug\netcoreapp2.1\DigitalShop.Model.dll
+D:\DOAN\DigitalShop\DigitalShop.Model\bin\Debug\netcoreapp2.1\DigitalShop.Model.pdb
+D:\DOAN\DigitalShop\DigitalShop.Model\obj\Debug\netcoreapp2.1\DigitalShop.Model.csproj.CoreCompileInputs.cache
+D:\DOAN\DigitalShop\DigitalShop.Model\obj\Debug\netcoreapp2.1\DigitalShop.Model.AssemblyInfoInputs.cache
+D:\DOAN\DigitalShop\DigitalShop.Model\obj\Debug\netcoreapp2.1\DigitalShop.Model.AssemblyInfo.cs
+D:\DOAN\DigitalShop\DigitalShop.Model\obj\Debug\netcoreapp2.1\DigitalShop.Model.dll
+D:\DOAN\DigitalShop\DigitalShop.Model\obj\Debug\netcoreapp2.1\DigitalShop.Model.pdb
+D:\DOAN\DigitalShop\DigitalShop.Model\obj\Debug\netcoreapp2.1\DigitalShop.Model.csprojResolveAssemblyReference.cache

@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DigitalShop.Service;
+using DigitalShop.Service.IRepository;
+using DigitialShop.Service.Repository;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,9 +24,38 @@ namespace DigitalShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-        }
+            //add dependency injection
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
 
+            //add cookie authentication
+            services.AddAuthentication(options =>
+            {
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(options=> { options.LoginPath = "/Admin/AdminLogin/Index"; });
+
+            services.Configure<CookieTempDataProviderOptions>(options =>
+            {
+                options.Cookie.IsEssential = true;
+            });
+
+            var connectionString = Configuration["connectionStrings:DigitalShopConnectionString"];
+            services.AddDbContext<DigitalDBContext>(x => x.UseSqlServer(connectionString));
+
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AuthorizeFolder("/");
+                options.Conventions.AllowAnonymousToPage("/Admin/AdminLogin/Index");
+            });
+
+            //services.AddMvc();
+            services.AddSession();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -38,12 +70,23 @@ namespace DigitalShop
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
+            app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                name: "area",
+                template: "{area:exists}/{controller=AdminLogin}/{action=Index}/{id?}");
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                //routes.MapAreaRoute(
+                //    name: "adminHome",
+                //    areaName: "Admin",routes.MapRoute("areaRoute", "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+                //    template: "{controller=Home}/{action=Index}/admin/{id?}");
+                //routes.MapRoute("Admin","{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

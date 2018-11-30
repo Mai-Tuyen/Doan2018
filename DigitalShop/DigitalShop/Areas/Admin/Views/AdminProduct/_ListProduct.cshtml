@@ -1,0 +1,174 @@
+﻿@model List<DigitalShop.Models.ProductViewModel>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                List Category
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <button type="button" class="btn btn-info " style="margin-bottom: 10px" onclick="EditAction();">Add Category</button>
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+
+                                <th>
+                                    Image
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                                <th>View</th>
+                                <th>Quantity</th>
+                                <th>Activate</th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        @if (Model.Count() != 0)
+                        {
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr class="odd gradeX">
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            <img src="@item.AvatarImage" width="35" height="70" />
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.PriceOut)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ViewCount)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                                        <td>
+                                            @if (item.Status == true)
+                                            {
+                                                <p style="color:darkgreen">Activate</p>
+                                            }
+                                            else
+                                            {
+                                                <p style="color:red">Deactivate</p>
+                                            }
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn-primary" onclick="EditAction(@item.Id)" id="btnEdit">Edit</button>
+                                            <button type="button" class="btn-danger" onclick="Deactive(@item.Id)">Deactive</button>
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        }
+                    </table>
+                    <!--Modal Update-->
+                    <div class="modal fade" id="updateModal" role="dialog">
+                        @*this is _UpdateData*@
+                    </div>
+                    <!--End Modal Update-->
+
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+</div>
+
+<script type="text/javascript">
+    function GetData() {
+        $.ajax({
+            async: true,
+            method: "GET",
+            dataType: "html",
+            url: '@Url.Action("GetListCategory", "AdminCategory")',
+                data: {},
+                success: function (response) {
+                    $("#contentAdmin").html("");
+                    $("#contentAdmin").html(response);
+                },
+                error: function () {
+                    alert('test data index error');
+                }
+            });
+    };
+
+    function Deactive(id) {
+        $.ajax({
+            async: true,
+            method: "Get",
+            dataType: "html",
+            url: '@Url.Action("Deactive", "AdminCategory")',
+            data: {id : id},
+            success: function () {
+                alert('Deactive successfullly !');
+                GetData();
+            }
+        })
+
+    }
+
+    function EditAction(id) {
+        $.ajax({
+            async: true,
+            method: "Get",
+            url: '@Url.Action("EditAction", "AdminCategory")',
+            data: { id: id },
+            success: function (response) {
+                $("#updateModal").html(response);
+                $("#updateModal").modal("show");
+            }
+        })
+    }
+    var actionName;
+    function submitUpdate() {
+
+        $.ajax({
+            async: true,
+            method: "Post",
+            url: '@Url.Action("Update", "AdminCategory")',
+            data: {
+                categoryViewModel: object = {
+                    Id: $("#Id").val(),
+                    Name: $("#Name").val(),
+                    Status: $("#Status").val(),
+                    IsUpdate: $("#IsUpdate").val()
+                }
+            },
+            success: function () {
+                if ($("#IsUpdate").val() == true) {
+                    alert("Successfully !");
+                }
+                else {
+                    alert("Successfully !");
+                }
+                GetData();
+            },
+            error: function () {
+                if (object.IsUpdate == true) {
+                    alert("Update fail !");
+                }
+                else {
+                    alert("Create fail !");
+                }
+            }
+
+        })
+
+    }
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+</script>
