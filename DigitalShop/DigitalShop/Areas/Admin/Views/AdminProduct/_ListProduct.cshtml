@@ -1,93 +1,93 @@
 ﻿@model List<DigitalShop.Models.ProductViewModel>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                List Category
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <div class="dataTable_wrapper">
-                    <button type="button" class="btn btn-info " style="margin-bottom: 10px" onclick="EditAction();">Add Category</button>
-                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Name
-                                </th>
-
-                                <th>
-                                    Image
-                                </th>
-                                <th>
-                                    Price
-                                </th>
-                                <th>View</th>
-                                <th>Quantity</th>
-                                <th>Activate</th>
-                                <th>
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        @if (Model.Count() != 0)
-                        {
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-
-                                    <tr class="odd gradeX">
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Name)
-                                        </td>
-                                        <td>
-                                            <img src="@item.AvatarImage" width="35" height="70" />
-                                        </td>
-                                        <td>@Html.DisplayFor(modelItem => item.PriceOut)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.ViewCount)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
-                                        <td>
-                                            @if (item.Status == true)
-                                            {
-                                                <p style="color:darkgreen">Activate</p>
-                                            }
-                                            else
-                                            {
-                                                <p style="color:red">Deactivate</p>
-                                            }
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn-primary" onclick="EditAction(@item.Id)" id="btnEdit">Edit</button>
-                                            <button type="button" class="btn-danger" onclick="Deactive(@item.Id)">Deactive</button>
-                                        </td>
-                                    </tr>
-
-                                }
-                            </tbody>
-                        }
-                    </table>
-                    <!--Modal Update-->
-                    <div class="modal fade" id="updateModal" role="dialog">
-                        @*this is _UpdateData*@
-                    </div>
-                    <!--End Modal Update-->
-
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    List Category
                 </div>
-                <!-- /.table-responsive -->
-            </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- /.panel -->
-    </div>
-</div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="dataTable_wrapper">
+                        <button type="button" class="btn btn-info " style="margin-bottom: 10px" onclick="EditAction();">Add Product</button>
+                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
 
-<script type="text/javascript">
+                                    <th>
+                                        Image
+                                    </th>
+                                    <th>
+                                        Price
+                                    </th>
+                                    <th>View</th>
+                                    <th>Quantity</th>
+                                    <th>Activate</th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            @if (Model.Count() != 0)
+                            {
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+
+                                        <tr class="odd gradeX">
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                            <td>
+                                                <img src="@item.AvatarImage" width="35" height="70" />
+                                            </td>
+                                            <td>@Html.DisplayFor(modelItem => item.PriceOut)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.ViewCount)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                                            <td>
+                                                @if (item.Status == true)
+                                                {
+                                                    <p style="color:darkgreen">Activate</p>
+                                                }
+                                                else
+                                                {
+                                                    <p style="color:red">Deactivate</p>
+                                                }
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn-primary" onclick="EditAction(@item.Id)" id="btnEdit">Edit</button>
+                                                <button type="button" class="btn-danger" onclick="Deactive(@item.Id)">Deactive</button>
+                                            </td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            }
+                        </table>
+                        <!--Modal Update-->
+                        <div class="modal fade" id="updateModal" role="dialog">
+                            @*this is _UpdateData*@
+                        </div>
+                        <!--End Modal Update-->
+
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+
+    <script type="text/javascript">
     function GetData() {
         $.ajax({
             async: true,
             method: "GET",
             dataType: "html",
-            url: '@Url.Action("GetListCategory", "AdminCategory")',
+            url: '@Url.Action("GetListProduct", "AdminProduct")',
                 data: {},
                 success: function (response) {
                     $("#contentAdmin").html("");
@@ -104,7 +104,7 @@
             async: true,
             method: "Get",
             dataType: "html",
-            url: '@Url.Action("Deactive", "AdminCategory")',
+            url: '@Url.Action("Deactive", "AdminProduct")',
             data: {id : id},
             success: function () {
                 alert('Deactive successfullly !');
@@ -118,7 +118,7 @@
         $.ajax({
             async: true,
             method: "Get",
-            url: '@Url.Action("EditAction", "AdminCategory")',
+            url: '@Url.Action("EditAction", "AdminProduct")',
             data: { id: id },
             success: function (response) {
                 $("#updateModal").html(response);
@@ -126,49 +126,77 @@
             }
         })
     }
-    var actionName;
+        //var chooseAvatar = new FormData();
+        //chooseAvatar.append('chooseAvatar', $('#chooseAvatar')[0].files[0]);
+        //var chooseImage1 = new FormData();
+        //chooseImage1.append('chooseImage1', $('#chooseImage1')[0].files[0]);
+        //var chooseImage2 = new FormData();
+        //chooseImage2.append('chooseImage2', $('#chooseImage2')[0].files[0]);
+        //var chooseImage3 = new FormData();
+        //chooseImage3.append('chooseImage3', $('#chooseImage3')[0].files[0]);
+        var chooseAvatar = $("#chooseAvatar").val();
+        var chooseImage1 = $("#chooseImage1").val();
+        var chooseImage2 = $("#chooseImage2").val();
+        var chooseImage3 = $("#chooseImage3").val();
+
     function submitUpdate() {
 
         $.ajax({
             async: true,
             method: "Post",
-            url: '@Url.Action("Update", "AdminCategory")',
+            url: '@Url.Action("Update", "AdminProduct")',
             data: {
-                categoryViewModel: object = {
+                productViewModel: object = {
                     Id: $("#Id").val(),
                     Name: $("#Name").val(),
+                    AvatarImage: document.getElementById("imageviewAvatar").src,
+                    Image1: document.getElementById("imageview1").src,
+                    Image2: document.getElementById("imageview2").src,
+                    Image3: document.getElementById("imageview3").src,
+                    PriceIn: $("#PriceIn").val(),
+                    PriceOut: $("#PriceOut").val(),
+                    CategoryId: $("#CategoryId").val(),
+                    CreateAt: $("#CreateAt").val(),
+                    CreateBy: $("#CreateBy").val(),
+                    Quantity: $("#Quantity").val(),
+                    ManufacturerId: $("#ManufacturerId").val(),
                     Status: $("#Status").val(),
+                    Description: $("#Description").val(),
                     IsUpdate: $("#IsUpdate").val()
-                }
+                },
+                //chooseAvatar: chooseAvatar,
+                //chooseImage1: chooseImage1,
+                //chooseImage1: chooseImage2,
+                //chooseImage3: chooseImage3,
+                chooseAvatar: chooseAvatar,
+                chooseImage1: chooseImage1,
+                chooseImage1: chooseImage2,
+                chooseImage3: chooseImage3,
             },
-            success: function () {
-                if ($("#IsUpdate").val() == true) {
+            success: function (response) {
+                if (response!="") {
                     alert("Successfully !");
+                    GetData();
                 }
                 else {
-                    alert("Successfully !");
+                    alert(response);
                 }
-                GetData();
             },
             error: function () {
-                if (object.IsUpdate == true) {
-                    alert("Update fail !");
-                }
-                else {
-                    alert("Create fail !");
-                }
+                alert("Fail!");
             }
 
         })
 
     }
 
-</script>
+    </script>
 
-<script>
-    $(document).ready(function () {
-        $('#dataTables-example').DataTable({
-            responsive: true
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').DataTable({
+                responsive: true
+            });
         });
-    });
-</script>
+    </script>
+

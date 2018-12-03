@@ -116,14 +116,14 @@
                     IsUpdate: $("#IsUpdate").val()
                 }
             },
-            success: function () {
-                if ($("#IsUpdate").val() == true) {
-                    alert("Successfully !");
+            success: function (response) {
+                if (response != "") {
+                    alert(response);
                 }
                 else {
                     alert("Successfully !");
+                    GetData();
                 }
-                GetData();
             },
             error: function () {
                 if (object.IsUpdate == true) {

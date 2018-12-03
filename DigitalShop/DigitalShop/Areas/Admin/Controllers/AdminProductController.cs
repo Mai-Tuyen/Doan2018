@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using DigitalShop.Entity;
 using DigitalShop.Models;
 using DigitalShop.Service.IRepository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DigitalShop.Areas.Admin.Controllers
 {
@@ -13,9 +15,15 @@ namespace DigitalShop.Areas.Admin.Controllers
     public class AdminProductController : Controller
     {
         private readonly IProductRepository productRepository;
-        public AdminProductController(IProductRepository productRepository)
+        private readonly ICategoryRepository categoryRepository;
+        private readonly IManufacturerRepository manufacturerRepository;
+        public AdminProductController(IProductRepository productRepository, 
+            ICategoryRepository categoryRepository,
+            IManufacturerRepository manufacturerRepository)
         {
             this.productRepository = productRepository;
+            this.categoryRepository = categoryRepository;
+            this.manufacturerRepository = manufacturerRepository;
         }
         public IActionResult Index()
         {
@@ -35,9 +43,9 @@ namespace DigitalShop.Areas.Admin.Controllers
                      Name = x.Name,
                      Description = x.Description,
                      AvatarImage = productRepository.GetListImage(x.Id)[0],
-                     Image1 = productRepository.GetListImage(x.Id)[0],
-                     Image2 = productRepository.GetListImage(x.Id)[1],
-                     Image3 = productRepository.GetListImage(x.Id)[2],
+                     Image1 = productRepository.GetListImage(x.Id)[1],
+                     Image2 = productRepository.GetListImage(x.Id)[2],
+                     Image3 = productRepository.GetListImage(x.Id)[3],
                      PriceIn = x.PriceIn,
                      PriceOut = x.PriceOut,
                      Category = x.Category.Name,
@@ -74,9 +82,9 @@ namespace DigitalShop.Areas.Admin.Controllers
                                         Name = x.Name,
                                         Description = x.Description,
                                         AvatarImage = productRepository.GetListImage(x.Id)[0],
-                                        Image1 = productRepository.GetListImage(x.Id)[0],
-                                        Image2 = productRepository.GetListImage(x.Id)[1],
-                                        Image3 = productRepository.GetListImage(x.Id)[2],
+                                        Image1 = productRepository.GetListImage(x.Id)[1],
+                                        Image2 = productRepository.GetListImage(x.Id)[2],
+                                        Image3 = productRepository.GetListImage(x.Id)[3],
                                         PriceIn = x.PriceIn,
                                         PriceOut = x.PriceOut,
                                         CategoryId = x.CategoryId,
@@ -96,16 +104,21 @@ namespace DigitalShop.Areas.Admin.Controllers
             {
                 ViewBag.modalTitle = "Product";
                 productViewModel.IsUpdate = false;
+                productViewModel.CreateAt = DateTime.Now;
+                productViewModel.NameCreateBy = User.Identity.Name;
+                productViewModel.ViewCount = 0;
+                productViewModel.Quantity = 0;
                 productViewModel.Status = true;
             }
-
-
+            ViewBag.CategoryId = new SelectList(categoryRepository.GetListCategory().OrderBy(x=>x.Name), "Id", "Name", productViewModel.CategoryId);
+            ViewBag.ManufacturerId = new SelectList(manufacturerRepository.GetListManufacture().OrderBy(x => x.Name), "Id", "Name", productViewModel.ManufacturerId);
             return PartialView("_UpdateProduct", productViewModel);
         }
 
         [HttpPost]
-        public void Update(ProductViewModel productViewModel)
+        public string Update(ProductViewModel productViewModel, IFormFile chooseAvatar, IFormFile chooseImage1, IFormFile chooseImage2, IFormFile chooseImage3)
         {
+            string errorMessage = "";
             if (productViewModel.IsUpdate)
             {
                 var product = productRepository.GetById(productViewModel.Id);
@@ -119,10 +132,16 @@ namespace DigitalShop.Areas.Admin.Controllers
                 product.CreateAt = productViewModel.CreateAt;
                 product.CreateBy = productViewModel.CreateBy;
                 product.Quantity = productViewModel.Quantity;
+                product.ViewCount = productViewModel.ViewCount;
                 product.Status = productViewModel.Status;
             }
             else
             {
+                if (productRepository.GetListProduct().Any(x => x.Name.Trim().ToLower() == productViewModel.Name.Trim().ToLower()))
+                {
+                    errorMessage = "This product already exists !";
+                    return errorMessage;
+                }
                 Product newproduct = new Product()
                 {
                     Name = productViewModel.Name,
@@ -140,6 +159,7 @@ namespace DigitalShop.Areas.Admin.Controllers
                 };
                 productRepository.Add(newproduct);
             }
+            return errorMessage;
         }
     }
 }

@@ -1,70 +1,175 @@
 ﻿@model DigitalShop.Models.ProductViewModel
 @Html.AntiForgeryToken()
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">@ViewBag.modalTitle</h4>
-        </div>
-        <div class="modal-body">
-            <div class="form-horizontal">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.TextBoxFor(model => model.IsUpdate, new { @class = "hidden" })
-                    @Html.TextBoxFor(model => model.Id, new { @class = "hidden" })
-                    @Html.TextBoxFor(model => model.CategoryId, new { @class = "hidden" })
-                    @Html.TextBoxFor(model => model.ManufacturerId, new { @class = "hidden" })
-                    @Html.TextBoxFor(model => model.CreateBy, new { @class = "hidden" })
-                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+<!DOCTYPE html>
+<html>
+<head>
+    @*<script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>*@
+    @*<script src="/Admin/tinymce.min.js"></script>*@
+    @*<script>
+        tinymce.init({
+            selector: '#Description',
+            width: 800,
+            height: 200
+        });
+    </script>*@
+    <script>
+        var loadFileAvatar = function (event) {
+            var output = document.getElementById('imageviewAvatar');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+        var loadFileImage1 = function (event) {
+            var output = document.getElementById('imageview1');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+        var loadFileImage2 = function (event) {
+            var output = document.getElementById('imageview2');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+        var loadFileImage3 = function (event) {
+            var output = document.getElementById('imageview3');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+
+    </script>
+</head>
+<body>
+    <div class="modal-dialog modal-lg" style="width:1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@ViewBag.modalTitle</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.IsUpdate, new { @class = "hidden" })
+                        @Html.TextBoxFor(model => model.Id, new { @class = "hidden" })
+                        @Html.TextBoxFor(model => model.CreateBy, new { @class = "hidden" })
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Category, new { htmlAttributes = new { @class = "form-control" } })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.Label("CategoryId", "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                        @Html.Label("ManufacturerId", "Manufacturer", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DropDownList("ManufacturerId", null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Price In", null, new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.PriceIn, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
+                        </div>
+                        @Html.Label("Price Out", null, new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.PriceOut, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Create At", null, new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.CreateAt, new { @class = "form-control", @readonly = "readonly" })
+
+                        </div>
+                        @Html.Label("Create By", null, new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.NameCreateBy, new { @class = "form-control", @readonly = "readonly" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("View Count", null, new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.ViewCount, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        @Html.Label("Quantity", null, new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Avatar", null, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="imageview" style="width:400px;margin-bottom:10px;">
+                                <img height="120" id="imageviewAvatar" src="@(Model.AvatarImage!=null && Model.AvatarImage.Length>1?Model.AvatarImage:"http://jigsawoosh.com.au/Content/Admin/images/no-image.jpg")" />
+                            </div>
+                            <div>
+                                <input type="file" id="chooseAvatar" name="chooseAvatar"  onchange="loadFileAvatar(event)" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Image Detail", null, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-3">
+                            <div class="imageview" style="width:400px;margin-bottom:10px;">
+                                <img  height="100" id="imageview1" src="@(Model.Image1!=null && Model.Image1.Length>1?Model.Image1:"http://jigsawoosh.com.au/Content/Admin/images/no-image.jpg")" />
+                            </div>
+                            <div>
+                                <input type="file" id="chooseImage1" name="chooseImage1" onchange="loadFileImage1(event)" />
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="imageview" style="width:400px;margin-bottom:10px;">
+                                <img height="100" id="imageview2" src="@(Model.Image2!=null && Model.Image2.Length>1?Model.Image2:"http://jigsawoosh.com.au/Content/Admin/images/no-image.jpg")" />
+                            </div>
+                            <div>
+                                <input type="file" id="chooseImage2" name="chooseImage2" onchange="loadFileImage2(event)" />
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="imageview" style="width:400px;margin-bottom:10px;">
+                                <img  height="100" id="imageview3" src="@(Model.Image3!=null && Model.Image3.Length>1?Model.Image3:"http://jigsawoosh.com.au/Content/Admin/images/no-image.jpg")" />
+                            </div>
+                            <div>
+                                <input type="file" id="chooseImage3" name="chooseImage3" onchange="loadFileImage3(event)" />
+                            </div>
+                        </div>
 
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Manufacturer, new { htmlAttributes = new { @class = "form-control" } })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Manufacturer, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
-
+                    <div class="form-group">
+                        @Html.Label("Description", null, new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextAreaFor(model => model.Description,new {@class = "form-control", @style = "width: 800px;" } )
+                        </div>
                     </div>
-                </div>
-                @{
-                    List<SelectListItem> listStatus = new List<SelectListItem>();
-                    listStatus.Add(new SelectListItem
-                    {
-                        Text = "Activate",
-                        Value = "true",
-                    });
-                    listStatus.Add(new SelectListItem
-                    {
-                        Text = "Deactivate",
-                        Value = "false"
 
-                    });
-                }
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.Status, listStatus, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    @{
+                        List<SelectListItem> listStatus = new List<SelectListItem>();
+                        listStatus.Add(new SelectListItem
+                        {
+                            Text = "Activate",
+                            Value = "true",
+                        });
+                        listStatus.Add(new SelectListItem
+                        {
+                            Text = "Deactivate",
+                            Value = "false"
+
+                        });
+                    }
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.Status, listStatus, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" onclick="submitUpdate()" class="btn btn-primary" data-dismiss="modal" id="btnSaveProject">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <div class="modal-footer">
+                        <button type="button" onclick="submitUpdate()" class="btn btn-primary" data-dismiss="modal" id="btnSaveProject">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    </body>
+</html>
 
 

@@ -71,8 +71,9 @@ namespace DigitalShop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public void Update(ManufacturerViewModel manufacturerViewModel)
+        public string Update(ManufacturerViewModel manufacturerViewModel)
         {
+            string errorMessage = "";
             if (manufacturerViewModel.IsUpdate)
             {
                 var manufacturer = manufacturerRepository.GetById(manufacturerViewModel.Id);
@@ -82,6 +83,11 @@ namespace DigitalShop.Areas.Admin.Controllers
             }
             else
             {
+                if (manufacturerRepository.GetListManufacture().Any(x => x.Name.Trim().ToLower() == manufacturerViewModel.Name.Trim().ToLower()))
+                {
+                    errorMessage = "This manufacturer name already exists !";
+                    return errorMessage;
+                }
                 Manufacturer manufacturer = new Manufacturer()
                 {
                     Name = manufacturerViewModel.Name,
@@ -89,6 +95,7 @@ namespace DigitalShop.Areas.Admin.Controllers
                 };
                 manufacturerRepository.Add(manufacturer);
             }
+            return errorMessage;
         }
     }
 }

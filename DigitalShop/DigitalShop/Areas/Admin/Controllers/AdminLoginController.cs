@@ -31,7 +31,7 @@ namespace DigitalShop.Areas.Admin.Controllers
             if (check)
             {
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userName));
+                identity.AddClaim(new Claim(ClaimTypes.Name, userName));
                 identity.AddClaim(new Claim(ClaimTypes.Name, passWord));
                 var principal = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { IsPersistent = false });

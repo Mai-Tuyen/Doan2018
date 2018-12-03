@@ -29,7 +29,7 @@ namespace DigitalShop.Areas.Admin.Controllers
         {
             List<CategoryViewModel> listCategoryViewModel = new List<CategoryViewModel>();
             var listCategoryEntity = categoryRepository.GetListCategory();
-            listCategoryViewModel = listCategoryEntity.Select(x => new CategoryViewModel
+            listCategoryViewModel = listCategoryEntity.OrderBy(x=>x.Status).Select(x => new CategoryViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -74,8 +74,9 @@ namespace DigitalShop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public void Update(CategoryViewModel categoryViewModel)
+        public string Update(CategoryViewModel categoryViewModel)
         {
+            string errorMessage = "";
             if (categoryViewModel.IsUpdate)
             {
                 var category = categoryRepository.GetById(categoryViewModel.Id);
@@ -85,6 +86,11 @@ namespace DigitalShop.Areas.Admin.Controllers
             }
             else
             {
+                if (categoryRepository.GetListCategory().Any(x => x.Name.Trim().ToLower() == categoryViewModel.Name.Trim().ToLower()))
+                {
+                    errorMessage = "This category already exists !";
+                    return errorMessage;
+                }
                 Category category = new Category()
                 {
                     Name = categoryViewModel.Name,
@@ -92,6 +98,7 @@ namespace DigitalShop.Areas.Admin.Controllers
                 };
                 categoryRepository.Add(category);
             }
+            return errorMessage;
         }
     }
 }

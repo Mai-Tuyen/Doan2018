@@ -25,7 +25,7 @@ namespace DigitialShop.Service.Repository
         {
             foreach (var item in context.Admin)
             {
-                if (item.UserName == userName && item.PassWord == passWord)
+                if (item.UserName == userName.Trim() && item.PassWord == passWord.Trim())
                 {
                     return true;
                 }
@@ -48,7 +48,7 @@ namespace DigitialShop.Service.Repository
 
         public List<Admin> GetListAdmin()
         {
-            return context.Admin.ToList();
+            return context.Admin.OrderBy(x=>x.Status).ThenBy(x=>x.Type).ToList();
         }
 
         public void Save()

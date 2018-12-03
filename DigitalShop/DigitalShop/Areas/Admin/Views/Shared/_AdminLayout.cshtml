@@ -29,6 +29,7 @@
     <!-- Custom Fonts -->
     @*<link href="/Admin/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">*@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
@@ -49,17 +50,14 @@
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
-                <li>@User.Identity.Name</li>
+                <li class="navbar-brand">@User.Identity.Name</li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
-                            <a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            <a href="" onclick="changePassWord(); return false" ;><i class="fa fa-user fa-fw"></i> Change PassWord</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -102,13 +100,16 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#" onclick="category(); return false;"><i class="fa fa-table fa-fw"></i> Category</a>
+                            <a href="" onclick="category(); return false;"><i class="fa fa-table fa-fw"></i> Category</a>
                         </li>
                         <li>
-                            <a href="#" onclick="manufacturer(); return false;"><i class="fa fa-table fa-fw"></i> Manufacturer</a>
+                            <a href="" onclick="manufacturer(); return false;"><i class="fa fa-table fa-fw"></i> Manufacturer</a>
                         </li>
                         <li>
-                            <a href="#" onclick="product(); return false;"><i class="fa fa-table fa-fw"></i> Product</a>
+                            <a href="" onclick="product(); return false;"><i class="fa fa-table fa-fw"></i> Product</a>
+                        </li>
+                        <li>
+                            <a href="" onclick="admin(); return false;"><i class="fa fa-user fa-fw"></i> Admin Management</a>
                         </li>
                         <li>
                             <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
@@ -189,13 +190,43 @@
         <div id="page-wrapper">
             <div class="row">
                 @*<div class="col-lg-12">*@
-                    @RenderBody()
-                @*</div>*@               
+                @RenderBody()
+                @*</div>*@
                 <!-- /.col-lg-12 -->
             </div>
         </div>
         <!-- /#page-wrapper -->
+        <div class="modal fade" id="changePassWord" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">@User.Identity.Name</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">New PassWord</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" name="newPassWord" type="password" autofocus id="newPassWord">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Confirm New PassWord</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" name="confirmNewPassWord" type="password" autofocus id="confirmNewPassWord">
+                                </div>
+                            </div>
 
+                            <div class="modal-footer">
+                                <button type="button" onclick="submitChangePassWord()" class="btn btn-primary" data-dismiss="modal" id="btnSaveProject">Save</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
@@ -217,15 +248,15 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     @*<script>
-        $(document).ready(function () {
-            $('#dataTables-example').DataTable({
-                responsive: true
+            $(document).ready(function () {
+                $('#dataTables-example').DataTable({
+                    responsive: true
+                });
             });
-        });
-    </script>*@
+        </script>*@
 
     <!--event when click Category-->
-    <script>
+    <script type="text/javascript">
         function category()
         {
             $.ajax({
@@ -261,6 +292,46 @@
                     }
                 });
         }
+
+        function admin() {
+            $.ajax({
+                    method: "get",
+                    url: '@Url.Action("GetListAdmin", "AdminManagement",new { area = "Admin"})',
+                    data: {},
+                    success: function (response) {
+                        $("#contentAdmin").html("");
+                        $("#contentAdmin").html(response);
+                    }
+                });
+        }
+
+        function changePassWord() {
+            $("#changePassWord").modal("show");
+        }
+
+        function submitChangePassWord() {
+            var messageChangePassWord = @ViewBag.MessageChangePassWord
+            $.ajax({
+                method: "post",
+                url: '@Url.Action("ChangePassWord", "AdminManagement",new { area = "Admin"})',
+                data: {
+                    userName: '@User.Identity.Name',
+                    newPassWord: $("#newPassWord").val(),
+                    confirmNewPassWord: $("#confirmNewPassWord").val()
+                },
+                success: function (response) {
+                        if (response == true) {
+                            alert("Successfully !");
+                            $("#newPassWord").val("");
+                            $("#confirmNewPassWord").val("");
+                        }
+                        else {
+                            alert("Error! Please try again")
+                        }
+                    }
+            });
+        }
+
     </script>
 </body>
 
