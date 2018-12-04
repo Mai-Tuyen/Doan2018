@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using DigitalShop.Entity;
 using DigitalShop.Models;
 using DigitalShop.Service.IRepository;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,13 +20,20 @@ namespace DigitalShop.Areas.Admin.Controllers
         private readonly IProductRepository productRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly IManufacturerRepository manufacturerRepository;
+        private readonly IAdminRepository adminRepository;
+        private readonly IHostingEnvironment hostingEnvironment;
         public AdminProductController(IProductRepository productRepository, 
             ICategoryRepository categoryRepository,
-            IManufacturerRepository manufacturerRepository)
+            IManufacturerRepository manufacturerRepository,
+            IHostingEnvironment hostingEnvironment,
+            IAdminRepository adminRepository
+            )
         {
             this.productRepository = productRepository;
             this.categoryRepository = categoryRepository;
             this.manufacturerRepository = manufacturerRepository;
+            this.hostingEnvironment = hostingEnvironment;
+            this.adminRepository = adminRepository;
         }
         public IActionResult Index()
         {
@@ -116,8 +126,38 @@ namespace DigitalShop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public string Update(ProductViewModel productViewModel, IFormFile chooseAvatar, IFormFile chooseImage1, IFormFile chooseImage2, IFormFile chooseImage3)
+        public string Update(ProductViewModel productViewModel)
         {
+            var fileAvatar = Request.Form.Files.Where(x=>x.Name=="fileAvatar").FirstOrDefault();
+            var fileImage1 = Request.Form.Files.Where(x => x.Name == "fileImage1").FirstOrDefault();
+            var fileImage2 = Request.Form.Files.Where(x=>x.Name== "fileImage2").FirstOrDefault();
+            var fileImage3 = Request.Form.Files.Where(x => x.Name == "fileImage3").FirstOrDefault();
+
+            if (fileAvatar!=null)
+            {
+                var pathAvatar = Path.Combine(hostingEnvironment.WebRootPath + "\\images", fileAvatar.FileName);
+                fileAvatar.CopyTo(new FileStream(pathAvatar, FileMode.Create));
+                productViewModel.AvatarImage = "/images/"+fileAvatar.FileName;
+            }
+            if (fileImage1 != null)
+            {
+                var pathImage1 = Path.Combine(hostingEnvironment.WebRootPath + "\\images", fileImage1.FileName);
+                fileImage1.CopyTo(new FileStream(pathImage1, FileMode.Create));
+                productViewModel.Image1 = "/images/" + fileImage1.FileName;
+            }
+            if (fileImage2 != null)
+            {
+                var pathImage2 = Path.Combine(hostingEnvironment.WebRootPath + "\\images", fileImage2.FileName);
+                fileImage2.CopyTo(new FileStream(pathImage2, FileMode.Create));
+                productViewModel.Image2 = "/images/" + fileImage2.FileName;
+            }
+            if (fileImage3 != null)
+            {
+                var pathImage3 = Path.Combine(hostingEnvironment.WebRootPath + "\\images", fileImage3.FileName);
+                fileImage2.CopyTo(new FileStream(pathImage3, FileMode.Create));
+                productViewModel.Image3 = "/images/" + fileImage3.FileName;
+            }
+
             string errorMessage = "";
             if (productViewModel.IsUpdate)
             {
@@ -130,10 +170,11 @@ namespace DigitalShop.Areas.Admin.Controllers
                 product.CategoryId = productViewModel.CategoryId;
                 product.ManufacturerId = productViewModel.ManufacturerId;
                 product.CreateAt = productViewModel.CreateAt;
-                product.CreateBy = productViewModel.CreateBy;
+                product.CreateBy = adminRepository.GetByUserName(productViewModel.NameCreateBy).Id;
                 product.Quantity = productViewModel.Quantity;
                 product.ViewCount = productViewModel.ViewCount;
                 product.Status = productViewModel.Status;
+                productRepository.Save();
             }
             else
             {
@@ -152,8 +193,8 @@ namespace DigitalShop.Areas.Admin.Controllers
                     CategoryId = productViewModel.CategoryId,
                     ManufacturerId = productViewModel.ManufacturerId,
                     CreateAt = productViewModel.CreateAt,
-                    CreateBy = productViewModel.CreateBy,
-                    ViewCount = 0,
+                    CreateBy = adminRepository.GetByUserName(productViewModel.NameCreateBy).Id,
+                ViewCount = 0,
                     Quantity = productViewModel.Quantity,
                     Status = productViewModel.Status
                 };

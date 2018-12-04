@@ -45,6 +45,11 @@ namespace DigitialShop.Service.Repository
             var admin = context.Admin.Find(id);
             return admin;
         }
+        public Admin GetByUserName(string userName)
+        {
+            var admin = context.Admin.Where(x=> x.UserName == userName).FirstOrDefault();
+            return admin;
+        }
 
         public List<Admin> GetListAdmin()
         {

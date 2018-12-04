@@ -125,61 +125,67 @@
                 $("#updateModal").modal("show");
             }
         })
-    }
-        //var chooseAvatar = new FormData();
-        //chooseAvatar.append('chooseAvatar', $('#chooseAvatar')[0].files[0]);
-        //var chooseImage1 = new FormData();
-        //chooseImage1.append('chooseImage1', $('#chooseImage1')[0].files[0]);
-        //var chooseImage2 = new FormData();
-        //chooseImage2.append('chooseImage2', $('#chooseImage2')[0].files[0]);
-        //var chooseImage3 = new FormData();
-        //chooseImage3.append('chooseImage3', $('#chooseImage3')[0].files[0]);
-        var chooseAvatar = $("#chooseAvatar").val();
-        var chooseImage1 = $("#chooseImage1").val();
-        var chooseImage2 = $("#chooseImage2").val();
-        var chooseImage3 = $("#chooseImage3").val();
+        };
 
-    function submitUpdate() {
+     
+        function submitUpdate() {
+            var formData = new FormData();
+           
+            var fileAvatar = $("#chooseAvatar").get(0);
+            var fileAvatars = fileAvatar.files;
+            for (var i = 0; i < fileAvatars.length; i++) {
+                formData.append("fileAvatar", fileAvatars[i]);
+            }
+
+            var fileImage1 = $("#chooseImage1").get(0);
+            var fileImage1s = fileImage1.files;
+            for (var i = 0; i < fileImage1s.length; i++) {
+                formData.append("fileImage1", fileImage1s[i]);
+            }
+
+            var fileImage2 = $("#chooseImage2").get(0);
+            var fileImage2s = fileImage2.files;
+            for (var i = 0; i < fileImage2s.length; i++) {
+                formData.append("fileImage2", fileImage2s[i]);
+            }
+
+            var fileImage3 = $("#chooseImage3").get(0);
+            var fileImage3s = fileImage3.files;
+            for (var i = 0; i < fileImage3s.length; i++) {
+                formData.append("fileImage3", fileImage3s[i]);
+            }
+
+            formData.append("Id", $("#Id").val());
+            formData.append("Name", $("#Name").val());
+            formData.append("PriceIn", $("#PriceIn").val());
+            formData.append("PriceOut", $("#PriceOut").val());
+            formData.append("CategoryId", $("#CategoryId").val());
+            formData.append("CreateAt", $("#CreateAt").val());
+            formData.append("NameCreateBy", $("#NameCreateBy").val());
+            formData.append("Quantity", $("#Quantity").val());
+            formData.append("ManufacturerId", $("#ManufacturerId").val());
+            formData.append("Status", $("#Status").val());
+            formData.append("Description", $("#Description").val());
+            formData.append("IsUpdate", $("#IsUpdate").val());
+            formData.append("AvatarImage", $("#AvatarImage").val());
+            formData.append("Image1", $("#Image1").val());
+            formData.append("Image2", $("#Image2").val());
+            formData.append("Image3", $("#Image3").val());
 
         $.ajax({
             async: true,
-            method: "Post",
+            method: "post",
             url: '@Url.Action("Update", "AdminProduct")',
-            data: {
-                productViewModel: object = {
-                    Id: $("#Id").val(),
-                    Name: $("#Name").val(),
-                    AvatarImage: document.getElementById("imageviewAvatar").src,
-                    Image1: document.getElementById("imageview1").src,
-                    Image2: document.getElementById("imageview2").src,
-                    Image3: document.getElementById("imageview3").src,
-                    PriceIn: $("#PriceIn").val(),
-                    PriceOut: $("#PriceOut").val(),
-                    CategoryId: $("#CategoryId").val(),
-                    CreateAt: $("#CreateAt").val(),
-                    CreateBy: $("#CreateBy").val(),
-                    Quantity: $("#Quantity").val(),
-                    ManufacturerId: $("#ManufacturerId").val(),
-                    Status: $("#Status").val(),
-                    Description: $("#Description").val(),
-                    IsUpdate: $("#IsUpdate").val()
-                },
-                //chooseAvatar: chooseAvatar,
-                //chooseImage1: chooseImage1,
-                //chooseImage1: chooseImage2,
-                //chooseImage3: chooseImage3,
-                chooseAvatar: chooseAvatar,
-                chooseImage1: chooseImage1,
-                chooseImage1: chooseImage2,
-                chooseImage3: chooseImage3,
-            },
+            contentType: false,
+            processData: false,
+            data: formData,
             success: function (response) {
-                if (response!="") {
-                    alert("Successfully !");
-                    GetData();
+                if (response != "") {
+                    alert(response);
                 }
                 else {
-                    alert(response);
+                    alert("Successfully !");
+                    GetData();
                 }
             },
             error: function () {
