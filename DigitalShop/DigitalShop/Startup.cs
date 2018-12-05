@@ -29,6 +29,7 @@ namespace DigitalShop
             services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IImportRepository, ImportRepository>();
 
             //add cookie authentication
             services.AddAuthentication(options =>

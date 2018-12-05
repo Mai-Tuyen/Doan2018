@@ -1,0 +1,131 @@
+﻿@model List<DigitalShop.Models.ProductViewModel>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Import
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.Label("Code", null, new { @class = "control-label col-md-2" })
+                    <input type="text" id="code" class="form-control col-md-10">
+                </div>
+                <div class="form-group" style="margin-bottom:100px">
+                    @Html.Label("Detail", null, new { @class = "control-label col-md-2" })
+                    @Html.TextArea("Detail", new { @class = "form-control col-md-10" })
+                </div>
+                
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+
+                                <th>
+                                    Quantity
+                                </th>
+                            </tr>
+                        </thead>
+                        @if (Model.Count() != 0)
+                        {
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr class="odd gradeX">
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+
+                                        <td>
+                                            <input type="number" data-productId="@item.Id" class="form-control quantityImport">
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        }
+                    </table>
+                    <button type="button" class="btn btn-primary"  id="btnSaveImport">Save</button>
+
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+</div>
+<script>
+    function GetData() {
+        $.ajax({
+            async: true,
+            method: "GET",
+            dataType: "html",
+            url: '@Url.Action("GetListImport", "AdminImport")',
+                data: {},
+                success: function (response) {
+                    $("#contentAdmin").html("");
+                    $("#contentAdmin").html(response);
+                },
+                error: function () {
+                    alert('test data index error');
+                }
+            });
+    };
+
+    var listImportDetail = [];
+    var j = 0;
+
+    $(document).ready(function () {
+        $("#btnSaveImport").click(function () {
+            $(".quantityImport").each(function (i, importDetail) {
+                if ($(this).val() != 0 && $(this).val() != null) {
+                    listImportDetail[j] = {
+                        ProductId: $(this).attr("data-productId"),
+                        Quantity: $(this).val()
+                    }
+                    j = j + 1;
+
+                }
+                console.log("a");
+            });
+
+            $.ajax({
+                async: true,
+                method: "post",
+                url: '@Url.Action("Update", "AdminImport")',
+                data: {
+                    importViewModel: {
+                        Code: $("#code").val(),
+                        Detail: $("#Detail").val()
+                    },
+                    listImportDetail: listImportDetail
+                },
+                success: function (response) {
+                    if (response != "") {
+                        alert(response);
+                    }
+                    else {
+                        alert("Successfully !");
+                        GetData();
+                    }
+                },
+                error: function () {
+                    alert("Fail!");
+                }
+
+            })
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+</script>
