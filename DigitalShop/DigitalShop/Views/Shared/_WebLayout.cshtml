@@ -165,8 +165,8 @@
                 <!-- logo -->
                 <div class="col-md-3 logo_agile">
                     <h1 class="text-center">
-                        <a href="index.html" class="font-weight-bold font-italic">
-                            <img src="images/logo2.png" alt=" " class="img-fluid">Digital Store
+                        <a href="/Home/Index" class="font-weight-bold font-italic">
+                            <img src="~/images/logo2.png" alt=" " class="img-fluid">Digital Store
                         </a>
                     </h1>
                 </div>
@@ -559,6 +559,22 @@
         }
     </script>
     <!-- //password-script -->
+    <!-- imagezoom -->
+    <script src="~/js/imagezoom.js"></script>
+    <!-- //imagezoom -->
+    <!-- flexslider -->
+    <link rel="stylesheet" href="~/css/flexslider.css" type="text/css" media="screen" />
+    <script src="~/js/jquery.flexslider.js"></script>
+    <script>
+        // Can also be used with $(document).ready()
+        $(window).load(function () {
+            $('.flexslider').flexslider({
+                animation: "slide",
+                controlNav: "thumbnails"
+            });
+        });
+    </script>
+    <!-- //FlexSlider-->
     <!-- scroll seller -->
     <script src="~/js/scroll.js"></script>
     <!-- //scroll seller -->

@@ -135,27 +135,31 @@ namespace DigitalShop.Areas.Admin.Controllers
 
             if (fileAvatar!=null)
             {
-                var pathAvatar = Path.Combine(hostingEnvironment.WebRootPath + "\\images", fileAvatar.FileName);
+                var _fileAvatarName = DateTime.Now.ToString("ddMMyyyyHHmmss") + "_0." + fileAvatar.FileName.Split(".").LastOrDefault();
+                var pathAvatar = Path.Combine(hostingEnvironment.WebRootPath + "\\images", _fileAvatarName);
                 fileAvatar.CopyTo(new FileStream(pathAvatar, FileMode.Create));
-                productViewModel.AvatarImage = "/images/"+fileAvatar.FileName;
+                productViewModel.AvatarImage = "/images/"+ _fileAvatarName;
             }
             if (fileImage1 != null)
             {
-                var pathImage1 = Path.Combine(hostingEnvironment.WebRootPath + "\\images", fileImage1.FileName);
+                var _fileImage1 = DateTime.Now.ToString("ddMMyyyyHHmmss") + "_1." + fileImage1.FileName.Split(".").LastOrDefault();
+                var pathImage1 = Path.Combine(hostingEnvironment.WebRootPath + "\\images", _fileImage1);
                 fileImage1.CopyTo(new FileStream(pathImage1, FileMode.Create));
-                productViewModel.Image1 = "/images/" + fileImage1.FileName;
+                productViewModel.Image1 = "/images/" + _fileImage1;
             }
             if (fileImage2 != null)
             {
-                var pathImage2 = Path.Combine(hostingEnvironment.WebRootPath + "\\images", fileImage2.FileName);
+                var _fileImage2 = DateTime.Now.ToString("ddMMyyyyHHmmss") + "_2." + fileImage2.FileName.Split(".").LastOrDefault();
+                var pathImage2 = Path.Combine(hostingEnvironment.WebRootPath + "\\images", _fileImage2);
                 fileImage2.CopyTo(new FileStream(pathImage2, FileMode.Create));
-                productViewModel.Image2 = "/images/" + fileImage2.FileName;
+                productViewModel.Image2 = "/images/" + _fileImage2;
             }
             if (fileImage3 != null)
             {
-                var pathImage3 = Path.Combine(hostingEnvironment.WebRootPath + "\\images", fileImage3.FileName);
-                fileImage2.CopyTo(new FileStream(pathImage3, FileMode.Create));
-                productViewModel.Image3 = "/images/" + fileImage3.FileName;
+                var _fileImage3 = DateTime.Now.ToString("ddMMyyyyHHmmss") + "_3." + fileImage3.FileName.Split(".").LastOrDefault();
+                var pathImage3 = Path.Combine(hostingEnvironment.WebRootPath + "\\images", _fileImage3);
+                fileImage3.CopyTo(new FileStream(pathImage3, FileMode.Create));
+                productViewModel.Image3 = "/images/" + _fileImage3;
             }
 
             string errorMessage = "";
