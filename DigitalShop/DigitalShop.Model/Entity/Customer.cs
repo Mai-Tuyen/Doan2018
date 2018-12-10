@@ -13,7 +13,6 @@ namespace DigitalShop.Entity
         public string UserName { get; set; }
         public string PassWord { get; set; }
         public string DisplayName { get; set; }
-        public string Email { get; set; }
         public string Phone { get; set; }
         [Column(TypeName = "ntext")]
         public string Address { get; set; }

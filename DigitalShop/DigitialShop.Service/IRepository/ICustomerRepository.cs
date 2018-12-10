@@ -1,10 +1,18 @@
-﻿using System;
+﻿using DigitalShop.Entity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DigitalShop.Service.IRepository
 {
-    interface ICustomerRepository
+    public interface ICustomerRepository
     {
+        Customer GetById(int id);
+        List<Customer> GetListCustomer();
+        void Save();
+        void Deactivate(int id);
+        void Activate(int id);
+
+
     }
 }

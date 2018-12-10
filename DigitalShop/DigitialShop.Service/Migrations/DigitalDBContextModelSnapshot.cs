@@ -64,8 +64,6 @@ namespace DigitialShop.Service.Migrations
 
                     b.Property<string>("DisplayName");
 
-                    b.Property<string>("Email");
-
                     b.Property<string>("PassWord");
 
                     b.Property<string>("Phone");
@@ -160,19 +158,19 @@ namespace DigitialShop.Service.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Code");
+
                     b.Property<DateTime>("CreateAt");
 
                     b.Property<int>("CustomerId");
 
                     b.Property<string>("ShipAddress");
 
-                    b.Property<string>("ShipEmail");
-
                     b.Property<string>("ShipMobile");
 
                     b.Property<string>("ShipName");
 
-                    b.Property<bool>("Status");
+                    b.Property<string>("Status");
 
                     b.HasKey("Id");
 
