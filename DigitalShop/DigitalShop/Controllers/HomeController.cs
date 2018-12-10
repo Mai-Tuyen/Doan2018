@@ -19,7 +19,7 @@ namespace DigitalShop.Controllers
         public IActionResult Index()
         {
             var topNewPhone = productRepository.GetListProduct()
-                .Where(x => x.Category.Name == CategoryName.SMART_PHONE)
+                .Where(x => x.Category.Name == CategoryName.SMART_PHONE && x.Status == true)
                 .OrderByDescending(x => x.CreateAt).Take(3)
                 .Select(x => new ProductViewModel() {
                     Id = x.Id,
@@ -44,7 +44,7 @@ namespace DigitalShop.Controllers
 
 
             var topNewLaptop = productRepository.GetListProduct()
-                .Where(x => x.Category.Name == CategoryName.LAPTOP)
+                .Where(x => x.Category.Name == CategoryName.LAPTOP && x.Status == true)
                 .OrderByDescending(x => x.CreateAt).Take(3)
                 .Select(x => new ProductViewModel()
                 {
@@ -69,7 +69,7 @@ namespace DigitalShop.Controllers
                 }).ToList();
 
             var topNewTivi = productRepository.GetListProduct()
-                .Where(x => x.Category.Name == CategoryName.TIVI)
+                .Where(x => x.Category.Name == CategoryName.TIVI && x.Status == true)
                 .OrderByDescending(x => x.CreateAt).Take(3)
                 .Select(x => new ProductViewModel()
                 {
@@ -94,7 +94,7 @@ namespace DigitalShop.Controllers
                 }).ToList();
 
             var topNewAccessories = productRepository.GetListProduct()
-                .Where(x => x.Category.Name == CategoryName.AUDIO || x.Category.Name == CategoryName.SMART_WATCH || x.Category.Name == CategoryName.HEAD_PHONE)
+                .Where(x => (x.Category.Name == CategoryName.AUDIO || x.Category.Name == CategoryName.SMART_WATCH || x.Category.Name == CategoryName.HEAD_PHONE) && x.Status == true)
                 .OrderByDescending(x => x.CreateAt).Take(3)
                 .Select(x => new ProductViewModel()
                 {

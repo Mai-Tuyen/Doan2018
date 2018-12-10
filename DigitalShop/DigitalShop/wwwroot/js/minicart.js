@@ -1868,7 +1868,39 @@ Cart.prototype.save = function save() {
  *
  * @param {object} The initiating event
  */
-Cart.prototype.checkout = function checkout(evt) {
+    Cart.prototype.checkout = function checkout(evt) {
+        evt.preventDefault();
+    //
+        var items = this.items(),
+            data = [],
+            i, len;
+        var cartList = [];
+        for (i = 0, len = items.length; i < len; i++) {
+            data.push(items[i].get());
+            //cartList.push(
+            //    {
+            //        Productname = items[i].get('item_name'),
+            //        ProductPrice = items[i].get('amount'),
+            //        ProDuctQuantity = items[i].get('quantity')
+            //    });
+            cartList[i] = {
+                ProductName: items[i].get('item_name'),
+                ProductPrice: items[i].get('amount'),
+                ProDuctQuantity: items[i].get('quantity')
+            };
+        }
+        jQuery.ajax({
+            url: '/Cart/GetListProductInCart',
+            data: { cartList: cartList },
+            method: 'POST',
+            success: function () {
+                //parent.html(response);
+                //window.location.href = "/Cart/CheckOut";
+                alert("a");
+                //window.location.replace("/Cart/CheckOut");
+            }
+        });
+    //
     this.fire('checkout', evt);
 };
 
@@ -1903,7 +1935,7 @@ var defaults = module.exports = {
 
     parent: (typeof document !== 'undefined') ? document.body : null,
 
-    action: 'checkout.html',
+    action: '/Cart/CheckOut',
 
     target: '',
 

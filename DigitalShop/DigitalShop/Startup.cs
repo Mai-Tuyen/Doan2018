@@ -47,6 +47,8 @@ namespace DigitalShop
             var connectionString = Configuration["connectionStrings:DigitalShopConnectionString"];
             services.AddDbContext<DigitalDBContext>(x => x.UseSqlServer(connectionString));
 
+            services.AddMemoryCache();
+            services.AddSession();
             services.AddMvc().AddRazorPagesOptions(options =>
             {
                 options.Conventions.AuthorizeFolder("/");
@@ -54,7 +56,7 @@ namespace DigitalShop
             });
 
             //services.AddMvc();
-            services.AddSession();
+           
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,12 +85,10 @@ namespace DigitalShop
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-
-                //routes.MapAreaRoute(
-                //    name: "adminHome",
-                //    areaName: "Admin",routes.MapRoute("areaRoute", "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
-                //    template: "{controller=Home}/{action=Index}/admin/{id?}");
-                //routes.MapRoute("Admin","{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    name: "Name",
+                    template: "{controller}/{action}/{*url}"
+                    );
             });
         }
     }

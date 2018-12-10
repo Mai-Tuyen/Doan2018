@@ -185,13 +185,18 @@
                         <!-- cart details -->
                         <div class="col-2 top_nav_right text-center mt-sm-0 mt-2">
                             <div class="wthreecartaits wthreecartaits2 cart cart box_1">
-                                <form action="#" method="post" class="last">
+                                @*<form action="#" method="post" class="last">
                                     <input type="hidden" name="cmd" value="_cart">
                                     <input type="hidden" name="display" value="1">
                                     <button class="btn w3view-cart" type="submit" name="submit" value="">
                                         <i class="fas fa-cart-arrow-down"></i>
                                     </button>
-                                </form>
+                                </form>*@
+                                <div>
+                                    <button id="checkoutCart" class="btn w3view-cart" value="">
+                                        <i class="fas fa-cart-arrow-down"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <!-- //cart details -->
@@ -213,19 +218,19 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto text-center mr-xl-5">
                         <li class="nav-item active mr-lg-2 mb-lg-0 mb-2">
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="@Url.Action("Index","Home")">
                                 Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item mr-lg-2 mb-lg-0 mb-2">
-                            <a class="nav-link" href="about.html">Smart Phone</a>
+                            <a class="nav-link" href="@Url.Action("GetListProductByCategory", "Product", new {categoryName="Smart Phone"})">Smart Phone</a>
                         </li>
                         <li class="nav-item mr-lg-2 mb-lg-0 mb-2">
-                            <a class="nav-link" href="about.html">Laptop</a>
+                            <a class="nav-link" href="@Url.Action("GetListProductByCategory", "Product", new {categoryName="Laptop"})">Laptop</a>
                         </li>
                         <li class="nav-item mr-lg-2 mb-lg-0 mb-2">
-                            <a class="nav-link" href="about.html">Tivi</a>
+                            <a class="nav-link" href="@Url.Action("GetListProductByCategory", "Product", new {categoryName="Tivi"})">Tivi</a>
                         </li>
                         <li class="nav-item dropdown mr-lg-2 mb-lg-0 mb-2">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -237,13 +242,13 @@
                                         <div class="col-sm-6 multi-gd-img">
                                             <ul class="multi-column-dropdown">
                                                 <li>
-                                                    <a href="product.html">Head Phone</a>
+                                                    <a href="@Url.Action("GetListProductByCategory", "Product", new {categoryName="Head Phone"})">Head Phone</a>
                                                 </li>
                                                 <li>
-                                                    <a href="product.html">Audio</a>
+                                                    <a href="@Url.Action("GetListProductByCategory", "Product", new {categoryName="Audio"})">Audio</a>
                                                 </li>
                                                 <li>
-                                                    <a href="product.html">Smart Watch</a>
+                                                    <a href="@Url.Action("GetListProductByCategory", "Product", new {categoryName="Smart Watch"})">Smart Watch</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -521,6 +526,7 @@
     <!-- cart-js -->
     <script src="~/js/minicart.js"></script>
     <script>
+        var cartList = [];
         paypals.minicarts.render(); //use only unique class names other than paypals.minicarts.Also Replace same class name in css and minicart.min.js
 
         paypals.minicarts.cart.on('checkout', function (evt) {
@@ -538,7 +544,28 @@
                 alert('The minimum order quantity is 1. Please add more to your shopping cart before checking out');
                 evt.preventDefault();
             }
+            
+            for (var i = 0; i < len; i++) {
+                cartList[i] = {
+                    ProductName: items[i].get('item_name'),
+                    ProDuctQuantity: items[i].get('quantity')
+                };
+            }
         });
+
+        @*$(document).ready(function () {
+                    //$(".minicarts-submit").click(function () {
+            $("#checkoutCart").click(function () {
+            $.ajax({
+                url: '@Url.Action("GetListProductInCart","Cart")',
+                data: { cartList: cartList },
+                method: 'Post',
+                success: function (response) {
+                    parent.html(response);
+                }
+            });
+        });
+        });*@
     </script>
     <!-- //cart-js -->
     <!-- password-script -->
