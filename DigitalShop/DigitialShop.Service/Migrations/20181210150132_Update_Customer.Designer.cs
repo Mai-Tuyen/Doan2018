@@ -4,14 +4,16 @@ using DigitalShop.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DigitialShop.Service.Migrations
 {
     [DbContext(typeof(DigitalDBContext))]
-    partial class DigitalDBContextModelSnapshot : ModelSnapshot
+    [Migration("20181210150132_Update_Customer")]
+    partial class Update_Customer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,19 +160,19 @@ namespace DigitialShop.Service.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Code");
-
                     b.Property<DateTime>("CreateAt");
 
                     b.Property<int>("CustomerId");
 
                     b.Property<string>("ShipAddress");
 
+                    b.Property<string>("ShipEmail");
+
                     b.Property<string>("ShipMobile");
 
                     b.Property<string>("ShipName");
 
-                    b.Property<string>("Status");
+                    b.Property<bool>("Status");
 
                     b.HasKey("Id");
 

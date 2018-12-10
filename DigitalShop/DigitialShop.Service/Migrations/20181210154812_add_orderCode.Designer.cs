@@ -4,14 +4,16 @@ using DigitalShop.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DigitialShop.Service.Migrations
 {
     [DbContext(typeof(DigitalDBContext))]
-    partial class DigitalDBContextModelSnapshot : ModelSnapshot
+    [Migration("20181210154812_add_orderCode")]
+    partial class add_orderCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

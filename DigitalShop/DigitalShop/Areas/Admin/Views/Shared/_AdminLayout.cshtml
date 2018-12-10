@@ -112,8 +112,15 @@
                             <a href="" onclick="importproduct(); return false;"><i class="fa fa-table fa-fw"></i> Import</a>
                         </li>
                         <li>
+                            <a href="" onclick="order(); return false;"><i class="fa fa-table fa-fw"></i> Order Pending</a>
+                        </li>
+                        <li>
+                            <a href="" onclick="customer(); return false;"><i class="fa fa-user fa-fw"></i> Customer</a>
+                        </li>
+                        <li>
                             <a href="" onclick="admin(); return false;"><i class="fa fa-user fa-fw"></i> Admin Management</a>
                         </li>
+
                         <li>
                             <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
                         </li>
@@ -141,8 +148,8 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        
-                        
+
+
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -255,11 +262,34 @@
                     }
                 });
         }
+        function order() {
+            $.ajax({
+                    method: "get",
+                    url: '@Url.Action("GetListOrder", "AdminOrder",new { area = "Admin"})',
+                    data: {},
+                    success: function (response) {
+                        $("#contentAdmin").html("");
+                        $("#contentAdmin").html(response);
+                    }
+                });
+        }
 
         function importproduct() {
             $.ajax({
                     method: "get",
                     url: '@Url.Action("GetListImport", "AdminImport",new { area = "Admin"})',
+                    data: {},
+                    success: function (response) {
+                        $("#contentAdmin").html("");
+                        $("#contentAdmin").html(response);
+                    }
+                });
+        }
+
+        function customer() {
+            $.ajax({
+                    method: "get",
+                    url: '@Url.Action("GetListCustomer", "AdminCustomer",new { area = "Admin"})',
                     data: {},
                     success: function (response) {
                         $("#contentAdmin").html("");
