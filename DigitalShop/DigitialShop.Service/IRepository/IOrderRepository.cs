@@ -9,6 +9,7 @@ namespace DigitalShop.Service.IRepository
     {
         List<Order> GetListOrder();
         List<OrderDetail> GetListOrderDetail(int id);
+        List<OrderDetail> GetAllOrderDetail();
         void Add(Order import);
         void AddOrderDetail(OrderDetail orderDetail);
         Order GetById(int id);

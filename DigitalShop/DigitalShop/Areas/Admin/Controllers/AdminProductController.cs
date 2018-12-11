@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DigitalShop.Entity;
 using DigitalShop.Models;
 using DigitalShop.Service.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace DigitalShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class AdminProductController : Controller
     {
         private readonly IProductRepository productRepository;

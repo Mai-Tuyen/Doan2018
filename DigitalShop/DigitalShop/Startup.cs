@@ -83,14 +83,14 @@ namespace DigitalShop
             {
                 routes.MapRoute(
                 name: "area",
-                template: "{area:exists}/{controller=AdminLogin}/{action=Index}/{id?}");
+                template: "{area:exists}/{controller=HomeAdmin}/{action=Index}/{id?}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-                routes.MapRoute(
-                    name: "Name",
-                    template: "{controller}/{action}/{*url}"
-                    );
+                //routes.MapRoute(
+                //    name: "Name",
+                //    template: "{controller}/{action}/{*url}"
+                //    );
             });
         }
     }
