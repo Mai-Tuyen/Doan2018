@@ -6,10 +6,12 @@ using DigitalShop.Service.IRepository;
 using DigitalShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using DigitalShop.Entity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DigitalShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class AdminManufacturerController : Controller
     {
         private readonly IManufacturerRepository manufacturerRepository;

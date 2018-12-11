@@ -28,6 +28,14 @@ namespace DigitialShop.Service.Repository
             context.SaveChanges();
         }
 
+        public List<OrderDetail> GetAllOrderDetail()
+        {
+            return context.OrderDetail.Include(p => p.Product)
+                 .Include(q => q.Order)
+                 .OrderBy(x => x.Quantity)
+                 .ToList();
+        }
+
         public Order GetById(int id)
         {
             return context.Order.Find(id);

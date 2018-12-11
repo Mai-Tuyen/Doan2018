@@ -1,0 +1,144 @@
+﻿@model List<DigitalShop.Models.OrderViewModel>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Order Sumary
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    @Html.Label("StartDate", null, new { @class = "control-label col-md-1" })
+                    <div class="col-md-3">
+                        <input type="date" class="subcontent__input form-control" id="startDate">
+                    </div>
+                    @Html.Label("EndDate", null, new { @class = "control-label col-md-1" })
+                    <div class="col-md-3">
+                        <input type="date" class="subcontent__input form-control" id="endDate">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" onclick="submitOrderSumary()" class="btn btn-primary" id="btnShowTopSeller" style="margin-bottom:50px">Show</button>
+                    </div>
+                    @Html.Label("Orders        : ", null, new { @class = "control-label col-md-2" })
+                    <label class="control-label col-md-10">@ViewBag.TotalOrder</label>
+                    @Html.Label("Total Import  : ", null, new { @class = "control-label col-md-2" })
+                    <label class="control-label col-md-10">@ViewBag.TotalPriceIn</label>
+                    @Html.Label("Total Revenue : ", null, new { @class = "control-label col-md-2" })
+                    <label class="control-label col-md-10">@ViewBag.TotalPriceOut</label>
+                    @Html.Label("Profit        : ", null, new { @class = "control-label col-md-2" })
+                    <label class="control-label col-md-10">@ViewBag.Profit</label>
+
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Code
+                                </th>
+                                <th>
+                                    Customer Name
+                                </th>
+                                <th>
+                                    Create At
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Detail
+                                </th>
+                            </tr>
+                        </thead>
+                        @if (Model.Count() != 0)
+                        {
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr class="odd gradeX">
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Code)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreateAt)
+                                        </td>
+                                        <td>
+                                            @if (item.Status == "Approved")
+                                            {
+                                                <p style="color:darkgreen">Approved</p>
+                                            }
+                                            else
+                                            {
+                                                if (item.Status == "Pending")
+                                                {
+                                                    <p style="color:darkorange">Pending</p>
+                                                }
+                                                else
+                                                {
+                                                    <p style="color:red">Cancel</p>
+                                                }
+                                            }
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn-primary" onclick="showDetail(@item.Id)" id="btnDetail">Detail</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        }
+                    </table>
+                    <!--Modal Update-->
+                    <div class="modal fade" id="updateModal" role="dialog">
+                        @*this is _UpdateData*@
+                    </div>
+                    <!--End Modal Update-->
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+</div>
+
+<script>
+        $(document).ready(function () {
+            $('#dataTables-example').DataTable({
+                responsive: true
+            });
+
+        });
+
+    function submitOrderSumary() {
+            $.ajax({
+                async: true,
+                method: "Post",
+                url: '@Url.Action("GetOrderSumary", "AdminReport")',
+                data: {
+                    startDate : $("#startDate").val(),
+                    endDate : $("#endDate").val()
+                },
+                success: function (response) {
+                    $("#contentAdmin").html("");
+                    $("#contentAdmin").html(response);
+                }
+            });
+    };
+
+    function showDetail(id) {
+        $.ajax({
+            async: true,
+            method: "Get",
+            url: '@Url.Action("GetOrderdetail", "AdminOrder")',
+            data: { id: id },
+            success: function (response) {
+                $("#updateModal").html(response);
+                $("#updateModal").modal("show");
+            }
+        });
+    };
+</script>
+
+

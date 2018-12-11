@@ -45,7 +45,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Digital Store</a>
+                <a class="navbar-brand" href="">Digital Store</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -85,16 +85,16 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                            <a href=""><i class="fa fa-bar-chart-o fa-fw"></i> Report<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="flot.html">Flot Charts</a>
+                                    <a href="" onclick="topview(); return false;">Top View</a>
                                 </li>
                                 <li>
-                                    <a href="morris.html">Morris.js Charts</a>
+                                    <a href="" onclick="topseller(); return false;">Top Seller</a>
+                                </li>
+                                <li>
+                                    <a href="" onclick="ordersumary(); return false;">Order Sumary</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -120,36 +120,6 @@
                         <li>
                             <a href="" onclick="admin(); return false;"><i class="fa fa-user fa-fw"></i> Admin Management</a>
                         </li>
-
-                        <li>
-                            <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="panels-wells.html">Panels and Wells</a>
-                                </li>
-                                <li>
-                                    <a href="buttons.html">Buttons</a>
-                                </li>
-                                <li>
-                                    <a href="notifications.html">Notifications</a>
-                                </li>
-                                <li>
-                                    <a href="typography.html">Typography</a>
-                                </li>
-                                <li>
-                                    <a href="icons.html"> Icons</a>
-                                </li>
-                                <li>
-                                    <a href="grid.html">Grid</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-
-
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -290,6 +260,41 @@
             $.ajax({
                     method: "get",
                     url: '@Url.Action("GetListCustomer", "AdminCustomer",new { area = "Admin"})',
+                    data: {},
+                    success: function (response) {
+                        $("#contentAdmin").html("");
+                        $("#contentAdmin").html(response);
+                    }
+                });
+        }
+
+        function topview() {
+             $.ajax({
+                    method: "Post",
+                    url: '@Url.Action("GetTopView", "AdminReport",new { area = "Admin"})',
+                    data: {},
+                    success: function (response) {
+                        $("#contentAdmin").html("");
+                        $("#contentAdmin").html(response);
+                    }
+                });
+        }
+        function topseller() {
+             $.ajax({
+                    method: "Post",
+                    url: '@Url.Action("GetTopSeller", "AdminReport",new { area = "Admin"})',
+                    data: {},
+                    success: function (response) {
+                        $("#contentAdmin").html("");
+                        $("#contentAdmin").html(response);
+                    }
+                });
+        }
+
+        function ordersumary() {
+             $.ajax({
+                    method: "Post",
+                    url: '@Url.Action("GetOrderSumary", "AdminReport",new { area = "Admin"})',
                     data: {},
                     success: function (response) {
                         $("#contentAdmin").html("");

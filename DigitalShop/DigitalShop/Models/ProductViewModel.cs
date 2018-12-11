@@ -45,5 +45,6 @@ namespace DigitalShop.Models
         [Required]
         public bool Status { get; set; }
         public bool IsUpdate { get; set; }
+        public int Sold { get; set; }
     }
 }
