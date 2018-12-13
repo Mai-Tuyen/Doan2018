@@ -12,6 +12,7 @@ namespace DigitalShop.Service.IRepository
         void Save();
         void Deactivate(int id);
         void Activate(int id);
+        void Add(Customer customer);
 
 
     }

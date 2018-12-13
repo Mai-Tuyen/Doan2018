@@ -148,10 +148,19 @@ namespace DigitalShop.Areas.Admin.Controllers
             {
                 listOrderSumary = listOrderSumary.Where(x => x.CreateAt.Day <= _endDate.Day).ToList();
             }
-            foreach (var item in orderRepository.GetAllOrderDetail())
+
+            var listOrderDetail = orderRepository.GetAllOrderDetail().ToList();
+            foreach (var order in listOrderSumary)
             {
-                totalPriceIn += item.Product.PriceIn * item.Quantity;
-                totalPriceOut += item.Product.PriceOut * item.Quantity;
+                var orderDetail = listOrderDetail.Where(x => x.OrderId == order.Id).ToList();
+                if (orderDetail!=null)
+                {
+                    foreach (var item in orderDetail)
+                    {
+                        totalPriceIn += item.Product.PriceIn * item.Quantity;
+                        totalPriceOut += item.Product.PriceOut * item.Quantity;
+                    }
+                }
             }
             profit = totalPriceOut - totalPriceIn;
             ViewBag.TotalPriceIn = totalPriceIn;

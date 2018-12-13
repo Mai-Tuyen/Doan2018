@@ -49,7 +49,7 @@ namespace DigitalShop.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetListProductByCategory(string categoryName,string searchProduct,int? manufacturerId,double? minPrice,double? maxPrice)
+        public IActionResult GetListProductByCategory(string categoryName,int? manufacturerId,double? minPrice,double? maxPrice)
         {
             var listProductViewModel = productRepository.GetListProduct()
                 .Where(x => x.Category.Name == categoryName && x.Status==true)
@@ -74,10 +74,6 @@ namespace DigitalShop.Controllers
                     Quantity = x.Quantity,
                     Status = x.Status
                 }).ToList();
-            if (!string.IsNullOrEmpty(searchProduct))
-            {
-                listProductViewModel = listProductViewModel.Where(x => x.Name.Trim().ToLower().Contains(searchProduct.Trim().ToLower())).ToList();
-            }
             if (minPrice!=null)
             {
                 listProductViewModel = listProductViewModel.Where(x => x.PriceOut >= minPrice).ToList();
@@ -105,10 +101,43 @@ namespace DigitalShop.Controllers
             };
             ViewBag.CategoryName = categoryName;
             ViewBag.ManufacturerId = manufacturerId;
-            ViewBag.SearchProduct = searchProduct;
             ViewBag.MinPrice = minPrice;
             ViewBag.MaxPrice = maxPrice;
             return View("_ListProductByCategory", productByCategoryModel);
+        }
+
+        [HttpPost]
+        public IActionResult GetResultSearch(string searchProduct)
+        {
+            var searchResult = productRepository.GetListProduct()
+                .Where(x=>x.Status == true)
+                .Select(x => new ProductViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    AvatarImage = productRepository.GetListImage(x.Id)[0],
+                    Image1 = productRepository.GetListImage(x.Id)[1],
+                    Image2 = productRepository.GetListImage(x.Id)[2],
+                    Image3 = productRepository.GetListImage(x.Id)[3],
+                    PriceIn = x.PriceIn,
+                    PriceOut = x.PriceOut,
+                    Category = x.Category.Name,
+                    ManufacturerId = x.ManufacturerId,
+                    Manufacturer = x.Manufacturer.Name,
+                    CreateAt = x.CreateAt,
+                    CreateBy = x.CreateBy,
+                    NameCreateBy = x.Admin.UserName,
+                    ViewCount = x.ViewCount,
+                    Quantity = x.Quantity,
+                    Status = x.Status
+                }).ToList();
+            if (!string.IsNullOrEmpty(searchProduct))
+            {
+                searchResult = searchResult.Where(x => x.Name.Trim().ToLower().Contains(searchProduct.Trim().ToLower())).ToList();
+            }
+            ViewBag.TextSearch = searchProduct;
+            return View("_ListSearchResult", searchResult);
         }
     }
 }

@@ -43,5 +43,10 @@ namespace DigitialShop.Service.Repository
         {
             context.SaveChanges();
         }
+        public void Add(Customer newCustomer)
+        {
+            context.Customer.Add(newCustomer);
+            context.SaveChanges();
+        }
     }
 }

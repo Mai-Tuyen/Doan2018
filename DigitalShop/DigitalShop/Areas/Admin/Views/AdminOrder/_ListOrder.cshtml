@@ -124,9 +124,14 @@
             dataType: "html",
             url: '@Url.Action("Approve", "AdminOrder")',
             data: { id: id },
-            success: function () {
-                alert('Approve order successfullly !');
-                GetData();
+            success: function (response) {
+                if (response =="") {
+                    alert('Approve order successfullly !');
+                    GetData();
+                }
+                else {
+                    alert(response);
+                }
             }
         });
     };

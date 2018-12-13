@@ -12,9 +12,12 @@ namespace DigitalShop.Controllers
     public class HomeController : Controller
     {
         private readonly IProductRepository productRepository;
-        public HomeController(IProductRepository productRepository)
+        private readonly IOrderRepository orderRepository;
+        public HomeController(IProductRepository productRepository,
+             IOrderRepository orderRepository)
         {
             this.productRepository = productRepository;
+            this.orderRepository = orderRepository;
         }
         public IActionResult Index()
         {
@@ -118,14 +121,99 @@ namespace DigitalShop.Controllers
                     Status = x.Status
                 }).ToList();
 
+            var listProductViewModel = productRepository.GetListProduct()
+               .Where(x => x.Status == true)
+               .Select(x => new ProductViewModel
+               {
+                   Id = x.Id,
+                   Name = x.Name,
+                   Description = x.Description,
+                   AvatarImage = productRepository.GetListImage(x.Id)[0],
+                   Image1 = productRepository.GetListImage(x.Id)[1],
+                   Image2 = productRepository.GetListImage(x.Id)[2],
+                   Image3 = productRepository.GetListImage(x.Id)[3],
+                   PriceIn = x.PriceIn,
+                   PriceOut = x.PriceOut,
+                   Category = x.Category.Name,
+                   ManufacturerId = x.ManufacturerId,
+                   Manufacturer = x.Manufacturer.Name,
+                   CreateAt = x.CreateAt,
+                   CreateBy = x.CreateBy,
+                   NameCreateBy = x.Admin.UserName,
+                   ViewCount = x.ViewCount,
+                   Quantity = x.Quantity,
+                   Status = x.Status
+               })
+               .ToList();
+            var listOrderDetail = orderRepository.GetAllOrderDetail();
+
+            foreach (var productViewModel in listProductViewModel)
+            {
+                productViewModel.Sold = 0;
+                foreach (var orderDetail in listOrderDetail)
+                {
+                    if (orderDetail.ProductId == productViewModel.Id)
+                    {
+                        productViewModel.Sold += orderDetail.Quantity;
+                    }
+                }
+            }
+
+            var listTopSeller = listProductViewModel.OrderByDescending(x => x.Sold)
+                .Take(10)
+                .ToList();
+
+            List<string> listProductName = new List<string>();
+            foreach (var item in listProductViewModel)
+            {
+                listProductName.Add(item.Name);
+            }
+
             var homeModel = new HomeModel()
             {
                 TopNewPhone = topNewPhone,
                 TopNewLaptop = topNewLaptop,
                 TopNewTV = topNewTivi,
                 TopNewAccessories = topNewAccessories,
+                TopSeller = listTopSeller,
+                AllProductName = listProductName
             };
             return View(homeModel);  
+        }
+
+        public List<string> GetListProductName()
+        {
+            var listProductViewModel = productRepository.GetListProduct()
+               .Where(x => x.Status == true)
+               .Select(x => new ProductViewModel
+               {
+                   Id = x.Id,
+                   Name = x.Name,
+                   Description = x.Description,
+                   AvatarImage = productRepository.GetListImage(x.Id)[0],
+                   Image1 = productRepository.GetListImage(x.Id)[1],
+                   Image2 = productRepository.GetListImage(x.Id)[2],
+                   Image3 = productRepository.GetListImage(x.Id)[3],
+                   PriceIn = x.PriceIn,
+                   PriceOut = x.PriceOut,
+                   Category = x.Category.Name,
+                   ManufacturerId = x.ManufacturerId,
+                   Manufacturer = x.Manufacturer.Name,
+                   CreateAt = x.CreateAt,
+                   CreateBy = x.CreateBy,
+                   NameCreateBy = x.Admin.UserName,
+                   ViewCount = x.ViewCount,
+                   Quantity = x.Quantity,
+                   Status = x.Status
+               })
+               .ToList();
+
+            List<string> listProductName = new List<string>();
+            foreach (var item in listProductViewModel)
+            {
+                listProductName.Add(item.Name.ToString());
+            }
+            return listProductName;
         }
 
         public IActionResult About()

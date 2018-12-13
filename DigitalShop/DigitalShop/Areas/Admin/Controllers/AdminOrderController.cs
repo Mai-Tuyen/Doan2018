@@ -72,8 +72,9 @@ namespace DigitalShop.Areas.Admin.Controllers
             return PartialView("_OrderDetail", orderDetailViewModels);
         }
 
-        public void Approve(int id)
+        public string Approve(int id)
         {
+            var errorMessage = "";
             var order = orderRepository.GetById(id);
             order.Status = "Approved";
             orderRepository.Save();
@@ -81,9 +82,18 @@ namespace DigitalShop.Areas.Admin.Controllers
             foreach (var item in orderDetails)
             {
                 var product = productRepository.GetById(item.ProductId);
-                product.Quantity -= item.Quantity;
+                if (product.Quantity >= item.Quantity)
+                {
+                    product.Quantity -= item.Quantity;
+                }
+                else
+                {
+                    errorMessage = "The quantity of products is not enough !";
+                    return errorMessage;
+                }
                 productRepository.Save();
             }
+            return errorMessage;
         }
         
         public void Cancel(int id)
