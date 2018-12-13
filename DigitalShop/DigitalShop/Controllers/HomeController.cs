@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DigitalShop.Models;
 using DigitalShop.Service.IRepository;
+using Microsoft.AspNetCore.Http;
 
 namespace DigitalShop.Controllers
 {
@@ -13,11 +14,14 @@ namespace DigitalShop.Controllers
     {
         private readonly IProductRepository productRepository;
         private readonly IOrderRepository orderRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public HomeController(IProductRepository productRepository,
-             IOrderRepository orderRepository)
+             IOrderRepository orderRepository,
+             IHttpContextAccessor _httpContextAccessor)
         {
             this.productRepository = productRepository;
             this.orderRepository = orderRepository;
+            this._httpContextAccessor = _httpContextAccessor;
         }
         public IActionResult Index()
         {
@@ -178,6 +182,7 @@ namespace DigitalShop.Controllers
                 TopSeller = listTopSeller,
                 AllProductName = listProductName
             };
+            ViewBag.UserNameLogin = _httpContextAccessor.HttpContext.Request.Cookies["userName"];
             return View(homeModel);  
         }
 
@@ -219,19 +224,20 @@ namespace DigitalShop.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-
+            ViewBag.UserNameLogin = _httpContextAccessor.HttpContext.Request.Cookies["userName"];
             return View();
         }
 
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-
+            ViewBag.UserNameLogin = _httpContextAccessor.HttpContext.Request.Cookies["userName"];
             return View();
         }
 
         public IActionResult Error()
         {
+            ViewBag.UserNameLogin = _httpContextAccessor.HttpContext.Request.Cookies["userName"];
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

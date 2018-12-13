@@ -1,5 +1,6 @@
 ﻿using DigitalShop.Models;
 using DigitalShop.Service.IRepository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,14 @@ namespace DigitalShop.Controllers
     {
         private readonly IProductRepository productRepository;
         private readonly IManufacturerRepository manufacturerRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public ProductController(IProductRepository productRepository,
-            IManufacturerRepository manufacturerRepository)
+            IManufacturerRepository manufacturerRepository,
+            IHttpContextAccessor _httpContextAccessor)
         {
             this.productRepository = productRepository;
             this.manufacturerRepository = manufacturerRepository;
+            this._httpContextAccessor = _httpContextAccessor;
         }
         public IActionResult Index(int id)
         {
@@ -45,6 +49,7 @@ namespace DigitalShop.Controllers
                     Status = x.Status
                 }).Single();
             ViewBag.SingleProductName = productViewModel.Name;
+            ViewBag.UserNameLogin = _httpContextAccessor.HttpContext.Request.Cookies["userName"];
             return View("_SingleProduct", productViewModel);
         }
 
@@ -103,6 +108,7 @@ namespace DigitalShop.Controllers
             ViewBag.ManufacturerId = manufacturerId;
             ViewBag.MinPrice = minPrice;
             ViewBag.MaxPrice = maxPrice;
+            ViewBag.UserNameLogin = _httpContextAccessor.HttpContext.Request.Cookies["userName"];
             return View("_ListProductByCategory", productByCategoryModel);
         }
 
@@ -137,6 +143,7 @@ namespace DigitalShop.Controllers
                 searchResult = searchResult.Where(x => x.Name.Trim().ToLower().Contains(searchProduct.Trim().ToLower())).ToList();
             }
             ViewBag.TextSearch = searchProduct;
+            ViewBag.UserNameLogin = _httpContextAccessor.HttpContext.Request.Cookies["userName"];
             return View("_ListSearchResult", searchResult);
         }
     }

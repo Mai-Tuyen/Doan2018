@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DigitalShop.Entity;
+using DigitalShop.Models;
 using DigitalShop.Service.IRepository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalShop.Controllers
@@ -11,9 +13,12 @@ namespace DigitalShop.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerRepository customerRepository;
-        public CustomerController(ICustomerRepository customerRepository)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public CustomerController(ICustomerRepository customerRepository,
+            IHttpContextAccessor _httpContextAccessor)
         {
             this.customerRepository = customerRepository;
+            this._httpContextAccessor = _httpContextAccessor;
         }
         [HttpPost]
         public string Register(Customer newCustomer)
@@ -33,13 +38,87 @@ namespace DigitalShop.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string userName, string passWord)
+        public string Login(string userName, string passWord,bool rememberme)
         {
-            foreach (var item in customerRepository.GetListCustomer())
+            var errorMessage = "";
+            var customer = customerRepository.GetListCustomer()
+                .Where(x => x.UserName.Trim().ToLower() == userName.Trim().ToLower() && x.PassWord.Trim().ToLower() == passWord.Trim().ToLower()).FirstOrDefault();
+           
+            if (customer==null)
             {
-
+                errorMessage = "Incorrect username or password !";
             }
-            return RedirectToAction("Index", "Home");
+            else
+            {
+                if (!customer.Status)
+                {
+                    errorMessage = "Your account has been locked !";
+                    return errorMessage;
+                }
+                else
+                {
+                    CookieOptions option = new CookieOptions();
+                    if (rememberme)
+                    {
+                        option.Expires = DateTime.Now.AddDays(10);
+                    }
+                    else
+                    {
+                        option.Expires = DateTime.Now.AddHours(1);
+                    }
+
+                    Response.Cookies.Append("userName", customer.DisplayName, option);
+                    ViewBag.UserName = userName;
+                }
+                
+            }
+            return errorMessage;
+        }
+
+        public void Logout()
+        {
+            Response.Cookies.Delete("userName");
+        }
+
+        public IActionResult GetCustomerInfomation()
+        {
+            var userName = _httpContextAccessor.HttpContext.Request.Cookies["userName"];
+            var customer = customerRepository.GetListCustomer()
+                .Where(x => x.DisplayName == userName).FirstOrDefault();
+            ViewBag.modalTitle = "Customer Infomation";
+            CustomerViewModel customerViewModel = new CustomerViewModel()
+            {
+                Id = customer.Id,
+                UserName = customer.UserName,
+                PassWord = customer.PassWord,
+                DisplayName = customer.DisplayName,
+                Phone = customer.Phone,
+                Address = customer.Address,
+                Status = customer.Status
+            };
+            return PartialView("_CustomerInfomation",customerViewModel);
+        }
+
+        [HttpPost]
+        public string ChangeCustomerInfomation(CustomerViewModel customerViewModel)
+        {
+            string errorMessage="";
+            var customer = customerRepository.GetById(customerViewModel.Id);
+            customer.Address = customerViewModel.Address;
+            customer.Phone = customerViewModel.Phone;
+            if (!string.IsNullOrEmpty(customerViewModel.ConfirmPassWord))
+            {
+                if (customerViewModel.PassWord.Trim().ToLower() == customerViewModel.ConfirmPassWord.Trim().ToLower())
+                {
+                    customer.PassWord = customerViewModel.PassWord;
+                }
+                else
+                {
+                    errorMessage = "Not match new Password !";
+                }
+            }
+            customerRepository.Save();
+            return errorMessage;
         }
     }
 }

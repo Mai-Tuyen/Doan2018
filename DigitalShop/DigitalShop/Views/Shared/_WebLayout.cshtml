@@ -99,16 +99,33 @@
                         <li class="text-center border-right text-white">
                             <i class="fas fa-phone mr-2"></i> 0344236715
                         </li>
-                        <li class="text-center border-right text-white">
-                            <a href="#" data-toggle="modal" data-target="#exampleModal" class="text-white">
-                                <i class="fas fa-sign-in-alt mr-2"></i> Log In
-                            </a>
-                        </li>
-                        <li class="text-center text-white">
-                            <a href="#" data-toggle="modal" data-target="#exampleModal2" class="text-white">
-                                <i class="fas fa-sign-out-alt mr-2"></i>Register
-                            </a>
-                        </li>
+                        @if (ViewBag.UserNameLogin != null)
+                        {
+                            <li class="text-center border-right text-white">
+                                <a class="text-white" id="showCustomerInfo">
+                                    <i class="fas fa fa-user fa-fw mr-2"></i> @ViewBag.UserNameLogin
+                                </a>
+                            </li>
+                            <li class="text-center text-white">
+                                <a class="text-white" id="btnLogOut">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Log out
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="text-center border-right text-white">
+                                <a href="#" data-toggle="modal" data-target="#exampleModal" class="text-white">
+                                    <i class="fas fa-sign-in-alt mr-2"></i> Log In
+                                </a>
+                            </li>
+                            <li class="text-center text-white">
+                                <a href="#" data-toggle="modal" data-target="#exampleModal2" class="text-white">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Register
+                                </a>
+                            </li>
+                        }
+
                     </ul>
                     <!-- //header lists -->
                 </div>
@@ -116,6 +133,11 @@
         </div>
     </div>
     <!-- modals -->
+    <!--Modal Update Customer Infomation-->
+    <div class="modal fade" tabindex="-1" id="updateModal" role="dialog" aria-hidden="true">
+        @*this is _UpdateData*@
+    </div>
+    <!--End Modal Update Customer Infomation-->
     <!-- log in -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -127,31 +149,29 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" method="post">
-                        <div class="form-group">
-                            <label class="col-form-label">Username</label>
-                            <input type="text" class="form-control" placeholder=" " name="Name" required="">
+                    <div class="form-group">
+                        <label class="col-form-label">Email</label>
+                        <input type="email" class="form-control" placeholder=" " id="userNameLogin" required="">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Password</label>
+                        <input type="password" class="form-control" placeholder=" " id="passWordLogin" required="">
+                    </div>
+                    <div class="right-w3l">
+                        <button type="button" class="form-control" id="btnLogin">Log in</button>
+                    </div>
+                    <div class="sub-w3l">
+                        <div class="custom-control custom-checkbox mr-sm-2">
+                            <input type="checkbox" id="checkRemember">
+                            <label>Remember me?</label>
                         </div>
-                        <div class="form-group">
-                            <label class="col-form-label">Password</label>
-                            <input type="password" class="form-control" placeholder=" " name="Password" required="">
-                        </div>
-                        <div class="right-w3l">
-                            <input type="submit" class="form-control" value="Log in">
-                        </div>
-                        <div class="sub-w3l">
-                            <div class="custom-control custom-checkbox mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
-                                <label class="custom-control-label" for="customControlAutosizing">Remember me?</label>
-                            </div>
-                        </div>
-                        <p class="text-center dont-do mt-3">
-                            Don't have an account?
-                            <a href="#" data-toggle="modal" data-target="#exampleModal2">
-                                Register Now
-                            </a>
-                        </p>
-                    </form>
+                    </div>
+                    <p class="text-center dont-do mt-3">
+                        Don't have an account?
+                        <a href="#" data-toggle="modal" data-target="#exampleModal2">
+                            Register Now
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -186,7 +206,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Password</label>
-                        <input type="password" class="form-control" placeholder=" " id="PassWord" id="password1" required="">
+                        <input type="password" class="form-control" placeholder=" " id="password1" required="">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Confirm Password</label>
@@ -807,7 +827,7 @@
             success: function (response) {
                 listProductName = response;
                 autocomplete(document.getElementById("inputSearchProduct"), countries);
-                console.log(listProductName);
+                //console.log(listProductName);
                 },
                 error: function () {
                     alert(' error !');
@@ -816,6 +836,7 @@
         //autocomplete(document.getElementById("inputSearchProduct"), listProductName);
     </script>
     <script type="text/javascript">
+
         $("#btnRegister").click(function () {
             $.ajax({
                 async: true,
@@ -824,7 +845,7 @@
                 data: {
                     newCustomer: newCustomer ={
                     UserName : $("#UserName").val(),
-                    PassWord : $("#PassWord").val(),
+                        PassWord: $("#password1").val(),
                     DisplayName : $("#DisplayName").val(),
                         Phone : $("#Phone").val(),
                         Address : $("#Address").val(),
@@ -844,6 +865,84 @@
                 }
             });
         });
+
+        $("#btnLogin").click(function () {
+            $.ajax({
+                async: true,
+                method: "Post",
+                url: '@Url.Action("Login", "Customer")',
+                data: {
+                    userName: $("#userNameLogin").val(),
+                    passWord: $("#passWordLogin").val(),
+                    rememberme: document.getElementById('checkRemember').checked
+                    },
+                success: function (response) {
+                    if (response == "") {
+                        alert("Login Successfully !");
+                        window.location.href = '@Url.Action("Index", "Home")';
+                    }
+                    else {
+                        alert(response);
+                    }
+                },
+                error: function () {
+                    alert('Error !');
+                }
+            });
+        });
+
+        $("#btnLogOut").click(function () {
+            $.ajax({
+                async: true,
+                method: "Get",
+                url: '@Url.Action("Logout", "Customer")',
+                success: function () {
+                        window.location.href = '@Url.Action("Index", "Home")';
+                },
+                error: function () {
+                    alert('Error !');
+                }
+            });
+        });
+
+        $("#showCustomerInfo").click(function () {
+            $.ajax({
+                async: true,
+                method: "Get",
+                url: '@Url.Action("GetCustomerInfomation", "Customer")',
+                success: function (response) {
+                    $("#updateModal").html(response);
+                    $("#updateModal").modal("show");
+                }
+            });
+        });
+
+        function saveCustomerInfo() {
+            $.ajax({
+                async: true,
+                method: "Post",
+                url: '@Url.Action("ChangeCustomerInfomation", "Customer")',
+                data: {
+                    customerViewModel: {
+                        Id: $("#Id").val(),
+                        DisplayName: $("#Id").val(),
+                        Phone: $("#Phone").val(),
+                        Address: $("#Address").val(),
+                        PassWord: $("#PassWord").val(),
+                        ConfirmPassWord: $("#ConfirmPassWord").val(),
+                    }
+                },
+                success: function (response) {
+                    if (response != "") {
+                        alert(response);
+                    }
+                    else {
+                        alert("Update infomation successfully !");
+                        window.location.href = '@Url.Action("Index", "Home")';
+                    }
+                }
+            });
+        };
     </script>
 </body>
 </html>
