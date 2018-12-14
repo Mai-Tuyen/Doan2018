@@ -118,7 +118,8 @@
                     },
                     orderDetailViewModels: listOrderDetail
                 },
-                success: function (response) {
+                 success: function (response) {
+                     paypals.minicarts.reset();
                     if (response != "") {
                         alert(response);
                     }

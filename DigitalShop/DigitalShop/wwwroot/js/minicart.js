@@ -1897,7 +1897,6 @@ Cart.prototype.save = function save() {
             method: 'POST',
             success: function (response) {
                 paypals.minicarts.view.hide();
-                paypals.minicarts.reset();
                 $("#webcontent").html("");
                 $("#webcontent").html(response);
             }
