@@ -1,8 +1,8 @@
 ﻿@model List<DigitalShop.Models.CartViewModel>;
-@{
-    ViewData["Title"] = "_CheckOut";
-    Layout = "~/Views/Shared/_WebLayout.cshtml";
-}
+@*@{
+        ViewData["Title"] = "_CheckOut";
+        Layout = "~/Views/Shared/_WebLayout.cshtml";
+    }*@
 <!-- page -->
 <div class="services-breadcrumb">
     <div class="agile_inner_breadcrumb">
@@ -29,7 +29,7 @@
         <div class="checkout-right">
             <h4 class="mb-sm-4 mb-3">
                 Your shopping cart contains:
-                <span>3 Products</span>
+                <span>@ViewBag.CountProduct Products</span>
             </h4>
             <div class="table-responsive">
                 <table class="timetable_sub">
@@ -39,7 +39,6 @@
                             <th>Quality</th>
                             <th>Image</th>
                             <th>Price</th>
-                            <th>Remove</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,75 +47,92 @@
                             <tr class="rem1">
                                 <td class="invert">@item.ProductName</td>
 
-                                <td class="invert">
-                                    <div class="quantity">
-                                        <div class="quantity-select">
-                                            <div class="entry value-minus">&nbsp;</div>
-                                            <div class="entry value">
-                                                <span>@item.ProDuctQuantity</span>
-                                            </div>
-                                            <div class="entry value-plus active">&nbsp;</div>
-                                        </div>
-                                    </div>
+                                <td class="invert quantityOrder" data-productId="@item.ProductID" data-Quantity="@item.ProDuctQuantity">
+                                    @item.ProDuctQuantity
                                 </td>
-                                <td class="invert-image">
-                                    <a href="single.html">
-                                        <img src="@item.ProductAvatar" alt=" " class="img-responsive">
-                                    </a>
+                                <td>
+                                    <img src="@item.ProductAvatar" alt=" " class="" style="height:50px">
                                 </td>
                                 <td class="invert">$@(item.ProDuctQuantity * item.ProductPriceOut)</td>
-                                <td class="invert">
-                                    <div class="rem">
-                                        <div class="close1"> </div>
-                                    </div>
-                                </td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
+
         </div>
+        <p style="float:right;margin-right:80px">Total: $@ViewBag.TotalPrice</p>
         <div class="checkout-left">
             <div class="address_form_agile mt-sm-5 mt-4">
                 <h4 class="mb-sm-4 mb-3">Add a new Details</h4>
-                <form action="payment.html" method="post" class="creditly-card-form agileinfo_form">
-                    <div class="creditly-wrapper wthree, w3_agileits_wrapper">
-                        <div class="information-wrapper">
-                            <div class="first-row">
-                                <div class="controls form-group">
-                                    <input class="billing-address-name form-control" type="text" name="name" placeholder="Full Name" required="">
-                                </div>
-                                <div class="w3_agileits_card_number_grids">
-                                    <div class="w3_agileits_card_number_grid_left form-group">
-                                        <div class="controls">
-                                            <input type="text" class="form-control" placeholder="Mobile Number" name="number" required="">
-                                        </div>
-                                    </div>
-                                    <div class="w3_agileits_card_number_grid_right form-group">
-                                        <div class="controls">
-                                            <input type="text" class="form-control" placeholder="Landmark" name="landmark" required="">
-                                        </div>
+                <div class="creditly-wrapper wthree, w3_agileits_wrapper">
+                    <div class="information-wrapper">
+                        <div class="first-row">
+                            <div class="controls form-group">
+                                <input class="billing-address-name form-control" type="text" id="shipName" placeholder="Full Name" required="">
+                            </div>
+                            <div class="w3_agileits_card_number_grids">
+                                <div class="w3_agileits_card_number_grid_left form-group">
+                                    <div class="controls">
+                                        <input type="number" class="form-control" placeholder="Mobile Number" id="shipMobile" required="">
                                     </div>
                                 </div>
-                                <div class="controls form-group">
-                                    <input type="text" class="form-control" placeholder="Town/City" name="city" required="">
-                                </div>
-                                <div class="controls form-group">
-                                    <select class="option-w3ls">
-                                        <option>Select Address type</option>
-                                        <option>Office</option>
-                                        <option>Home</option>
-                                        <option>Commercial</option>
-
-                                    </select>
+                                <div class="w3_agileits_card_number_grid_right form-group">
+                                    <div class="controls">
+                                        <input type="text" class="form-control" placeholder="Address" id="shipAddress" required="">
+                                    </div>
                                 </div>
                             </div>
-                            <button class="submit check_out btn">Submit</button>
+
                         </div>
+                        <button class="btn btn-success" id="btnSubmitOrder">Submit</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <!-- //checkout page -->
+<script type="text/javascript">
+    var listOrderDetail = [];
+    var j = 0;
+    $(document).ready(function () {
+        $("#btnSubmitOrder").click(function () {
+            $(".quantityOrder").each(function () {
+                    listOrderDetail[j] = {
+                        ProductId: $(this).attr("data-productId"),
+                        Quantity: $(this).attr("data-Quantity")
+                    }
+                    j = j + 1;
+            });
+
+             $.ajax({
+                async: true,
+                method: "post",
+                url: '@Url.Action("CheckOut", "Cart")',
+                data: {
+                    orderViewModel: {
+                        ShipName: $("#shipName").val(),
+                        ShipMobile: $("#shipMobile").val(),
+                        ShipAddress: $("#shipAddress").val()
+                    },
+                    orderDetailViewModels: listOrderDetail
+                },
+                success: function (response) {
+                    if (response != "") {
+                        alert(response);
+                    }
+                    else {
+                        window.location.href = "/Home/Index";
+                        alert("Successfully !");
+                    }
+                },
+                error: function () {
+                    alert("Fail!");
+                }
+
+            });
+        });
+    });
+
+</script>

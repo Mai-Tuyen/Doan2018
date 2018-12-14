@@ -1889,15 +1889,17 @@ Cart.prototype.save = function save() {
                 ProDuctQuantity: items[i].get('quantity')
             };
         }
-        jQuery.ajax({
+        //paypal.minicart.render();
+        //paypal.minicart.view.hide();
+        $.ajax({
             url: '/Cart/GetListProductInCart',
             data: { cartList: cartList },
             method: 'POST',
-            success: function () {
-                //parent.html(response);
-                //window.location.href = "/Cart/CheckOut";
-                alert("a");
-                //window.location.replace("/Cart/CheckOut");
+            success: function (response) {
+                paypals.minicarts.view.hide();
+                paypals.minicarts.reset();
+                $("#webcontent").html("");
+                $("#webcontent").html(response);
             }
         });
     //

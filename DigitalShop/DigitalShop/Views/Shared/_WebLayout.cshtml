@@ -252,18 +252,13 @@
                         <!-- cart details -->
                         <div class="col-2 top_nav_right text-center mt-sm-0 mt-2">
                             <div class="wthreecartaits wthreecartaits2 cart cart box_1">
-                                @*<form action="#" method="post" class="last">
+                                <form action="#" method="post" class="last">
                                         <input type="hidden" name="cmd" value="_cart">
                                         <input type="hidden" name="display" value="1">
                                         <button class="btn w3view-cart" type="submit" name="submit" value="">
                                             <i class="fas fa-cart-arrow-down"></i>
                                         </button>
-                                    </form>*@
-                                <div>
-                                    <button id="checkoutCart" class="btn w3view-cart" value="">
-                                        <i class="fas fa-cart-arrow-down"></i>
-                                    </button>
-                                </div>
+                                    </form>
                             </div>
                         </div>
                         <!-- //cart details -->
@@ -619,20 +614,6 @@
                 };
             }
         });
-
-        @*$(document).ready(function () {
-                    //$(".minicarts-submit").click(function () {
-            $("#checkoutCart").click(function () {
-            $.ajax({
-                url: '@Url.Action("GetListProductInCart","Cart")',
-                data: { cartList: cartList },
-                method: 'Post',
-                success: function (response) {
-                    parent.html(response);
-                }
-            });
-        });
-        });*@
     </script>
     <!-- //cart-js -->
     <!-- password-script -->
@@ -837,7 +818,8 @@
     </script>
     <script type="text/javascript">
 
-        $("#btnRegister").click(function () {
+        $(document).ready(function () {
+            $("#btnRegister").click(function () {
             $.ajax({
                 async: true,
                 method: "Post",
@@ -853,8 +835,8 @@
                },
                 success: function (response) {
                     if (response == "") {
-                        alert("Register Successfully !");
                         window.location.href = '@Url.Action("Index", "Home")';
+                        alert("Register Successfully !");
                     }
                     else {
                         alert(response);
@@ -864,6 +846,7 @@
                     alert('Error !');
                 }
             });
+        });
         });
 
         $("#btnLogin").click(function () {
@@ -878,8 +861,8 @@
                     },
                 success: function (response) {
                     if (response == "") {
-                        alert("Login Successfully !");
                         window.location.href = '@Url.Action("Index", "Home")';
+                        alert("Login Successfully !");
                     }
                     else {
                         alert(response);
@@ -937,8 +920,8 @@
                         alert(response);
                     }
                     else {
-                        alert("Update infomation successfully !");
                         window.location.href = '@Url.Action("Index", "Home")';
+                        alert("Update infomation successfully !");
                     }
                 }
             });

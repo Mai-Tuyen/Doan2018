@@ -15,4 +15,10 @@ namespace DigitalShop
         public const string AUDIO = "Audio";
     }
 
+    public static class StatusOrder
+    {
+        public const string APPROVED = "Approved";
+        public const string PENDING = "Pending";
+        public const string CANCEL = "Cancel";
+    }
 }

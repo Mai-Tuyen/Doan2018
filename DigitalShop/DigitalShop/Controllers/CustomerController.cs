@@ -68,6 +68,7 @@ namespace DigitalShop.Controllers
                     }
 
                     Response.Cookies.Append("userName", customer.DisplayName, option);
+                    Response.Cookies.Append("emailCustomer", customer.UserName, option);
                     ViewBag.UserName = userName;
                 }
                 
@@ -78,13 +79,14 @@ namespace DigitalShop.Controllers
         public void Logout()
         {
             Response.Cookies.Delete("userName");
+            Response.Cookies.Delete("emailCustomer");
         }
 
         public IActionResult GetCustomerInfomation()
         {
-            var userName = _httpContextAccessor.HttpContext.Request.Cookies["userName"];
+            var userName = _httpContextAccessor.HttpContext.Request.Cookies["emailCustomer"];
             var customer = customerRepository.GetListCustomer()
-                .Where(x => x.DisplayName == userName).FirstOrDefault();
+                .Where(x => x.UserName == userName).FirstOrDefault();
             ViewBag.modalTitle = "Customer Infomation";
             CustomerViewModel customerViewModel = new CustomerViewModel()
             {
