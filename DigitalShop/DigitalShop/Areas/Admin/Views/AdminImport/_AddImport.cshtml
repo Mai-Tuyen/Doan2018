@@ -1,67 +1,73 @@
 ﻿@model List<DigitalShop.Models.ProductViewModel>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Import
+<!DOCTYPE html>
+<html>
+<head>
+    <body>
+        <form id="formAddImport">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Import
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.Label("Code", null, new { @class = "control-label col-md-2" })
+                                <input type="text" id="code" name="Code" class="form-control col-md-10">
+                            </div>
+                            <div class="form-group" style="margin-bottom:30px ;float: left; width: 100%;">
+                                @Html.Label("Detail", null, new { @class = "control-label col-md-2" })
+                                @Html.TextArea("Detail", new { @class = "form-control col-md-10" })
+                            </div>
+                            <div class="form-group" style="float: left; width: 100%;">
+                                @Html.Label("List Product", null, new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Name
+                                            </th>
+
+                                            <th>
+                                                Quantity
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    @if (Model.Count() != 0)
+                                    {
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+
+                                                <tr class="odd gradeX">
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Name)
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="number" data-productId="@item.Id" class="form-control quantityImport">
+                                                    </td>
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    }
+                                </table>
+                                <button type="button" disabled class="btn btn-primary" id="btnSaveImport">Save</button>
+
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
             </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <div class="form-group">
-                    @Html.Label("Code", null, new { @class = "control-label col-md-2" })
-                    <input type="text" id="code" class="form-control col-md-10">
-                </div>
-                <div class="form-group" style="margin-bottom:30px ;float: left; width: 100%;">
-                    @Html.Label("Detail", null, new { @class = "control-label col-md-2" })
-                    @Html.TextArea("Detail", new { @class = "form-control col-md-10" })
-                </div>
-                <div class="form-group" style="float: left; width: 100%;">
-                    @Html.Label("List Product", null, new { @class = "control-label col-md-2" })
-                </div>
-                <div class="dataTable_wrapper">
-                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Name
-                                </th>
-
-                                <th>
-                                    Quantity
-                                </th>
-                            </tr>
-                        </thead>
-                        @if (Model.Count() != 0)
-                        {
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-
-                                    <tr class="odd gradeX">
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Name)
-                                        </td>
-
-                                        <td>
-                                            <input type="number" data-productId="@item.Id" class="form-control quantityImport">
-                                        </td>
-                                    </tr>
-
-                                }
-                            </tbody>
-                        }
-                    </table>
-                    <button type="button" class="btn btn-primary" id="btnSaveImport">Save</button>
-
-                </div>
-                <!-- /.table-responsive -->
-            </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- /.panel -->
-    </div>
-</div>
-<script>
+        </form>
+        <script>
     function GetData() {
         $.ajax({
             async: true,
@@ -122,11 +128,33 @@
             });
         });
     });
-</script>
-<script>
-    $(document).ready(function () {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
-</script>
+        </script>
+        <!--Validation form-->
+        <script src="~/js/jquery.validate.min.js"></script>
+        <script src="~/js/FormValidation/addImportValidation.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                console.log($("#formAddImport").valid());
+                $("#formAddImport").change(function () {
+                    if ($("#formAddImport").valid()) {
+                        $('#btnSaveImport').prop('disabled', false);
+                    }
+                    else {
+                        $('#btnSaveImport').prop('disabled', true);
+                    }
+                });
+
+            });
+
+        </script>
+        <!--End Validation form-->
+        <script>
+            $(document).ready(function () {
+                $('#dataTables-example').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+    </body>
+</head>
+</html>

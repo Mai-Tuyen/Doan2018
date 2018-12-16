@@ -33,7 +33,7 @@
     </script>
 </head>
 <body>
-    <form id="datafiles" method="post" enctype="multipart/form-data">
+    <form id="frmUpdateProduct" method="post" enctype="multipart/form-data">
         <div class="modal-dialog modal-lg" style="width:1000px">
             <div class="modal-content">
                 <div class="modal-header">
@@ -166,14 +166,31 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" onclick="submitUpdate()" class="btn btn-primary" data-dismiss="modal" id="btnSaveProject">Save</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" disabled onclick="submitUpdate()" class="btn btn-primary" data-dismiss="modal" id="btnSaveProject">Save</button>
+                            <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/FormValidation/productValidation.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                console.log($("#frmUpdateProduct").valid());
+                $("#frmUpdateProduct").change(function () {
+                    if ($("#frmUpdateProduct").valid()) {
+                        $('#btnSaveProject').prop('disabled', false);
+                    }
+                    else {
+                        $('#btnSaveProject').prop('disabled', true);
+                    }
+                });
+                
+            });
+        </script>
+
 </body>
 </html>
 

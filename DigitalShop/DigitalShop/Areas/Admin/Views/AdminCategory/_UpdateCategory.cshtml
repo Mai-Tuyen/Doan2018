@@ -1,52 +1,77 @@
 ﻿@model DigitalShop.Models.CategoryViewModel
-    @Html.AntiForgeryToken()
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">@ViewBag.modalTitle</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-horizontal">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.IsUpdate, new { @class = "hidden" })
-                            @Html.TextBoxFor(model => model.Id, new { @class = "hidden" })
-                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                            <p class="text-danger" id="txtNameError"></p>
-                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                        </div>
+@Html.AntiForgeryToken()
+<!DOCTYPE html>
+<html>
+<head>
+    <body>
+        <form id="frmUpdateCategory">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">@ViewBag.modalTitle</h4>
                     </div>
-                    @{
-                        List<SelectListItem> listStatus = new List<SelectListItem>();
-                        listStatus.Add(new SelectListItem
-                        {
-                            Text = "Activate",
-                            Value = "true",
-                        });
-                        listStatus.Add(new SelectListItem
-                        {
-                            Text = "Deactivate",
-                            Value = "false"
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.IsUpdate, new { @class = "hidden" })
+                                    @Html.TextBoxFor(model => model.Id, new { @class = "hidden" })
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    <p class="text-danger" id="txtNameError"></p>
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @{
+                                List<SelectListItem> listStatus = new List<SelectListItem>();
+                                listStatus.Add(new SelectListItem
+                                {
+                                    Text = "Activate",
+                                    Value = "true",
+                                });
+                                listStatus.Add(new SelectListItem
+                                {
+                                    Text = "Deactivate",
+                                    Value = "false"
 
-                        });
-                    }
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.Status, listStatus, htmlAttributes: new { @class = "form-control" })
-                            <p class="text-danger" id="txtStatusError"></p>
-                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                });
+                            }
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Status, listStatus, htmlAttributes: new { @class = "form-control" })
+                                    <p class="text-danger" id="txtStatusError"></p>
+                                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" disabled onclick="submitUpdate()" class="btn btn-primary" data-dismiss="modal" id="btnSaveProject">Save</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" onclick="submitUpdate()" class="btn btn-primary" data-dismiss="modal" id="btnSaveProject">Save</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </form>
+        <script src="~/js/jquery.validate.min.js"></script>
+        <script src="~/js/FormValidation/categoryValidation.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                console.log($("#frmUpdateCategory").valid());
+                $("#frmUpdateCategory").change(function () {
+                    if ($("#frmUpdateCategory").valid()) {
+                        $('#btnSaveProject').prop('disabled', false);
+                    }
+                    else {
+                        $('#btnSaveProject').prop('disabled', true);
+                    }
+                });
 
+            });
+            
+        </script>
+    </body>
+</head>
+</html>

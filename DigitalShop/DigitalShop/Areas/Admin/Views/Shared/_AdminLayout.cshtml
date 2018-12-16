@@ -68,6 +68,7 @@
                 </li>
                 <!-- /.dropdown -->
             </ul>
+
             <!-- /.navbar-top-links -->
 
             <div class="navbar-default sidebar" role="navigation">
@@ -136,37 +137,39 @@
             </div>
         </div>
         <!-- /#page-wrapper -->
-        <div class="modal fade" id="changePassWord" role="dialog">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">@User.Identity.Name</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-md-2">New PassWord</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" name="newPassWord" type="password" autofocus id="newPassWord">
+        <form id="frmChangePassWordAdmin">
+            <div class="modal fade" id="changePassWord" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">@User.Identity.Name</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">New PassWord</label>
+                                    <div class="col-md-10">
+                                        <input class="form-control" name="newPassWord" type="password" autofocus id="newPassWord">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-2">Confirm New PassWord</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" name="confirmNewPassWord" type="password" autofocus id="confirmNewPassWord">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Confirm New PassWord</label>
+                                    <div class="col-md-10">
+                                        <input class="form-control" name="confirmNewPassWord" type="password" autofocus id="confirmNewPassWord">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="modal-footer">
-                                <button type="button" onclick="submitChangePassWord()" class="btn btn-primary" data-dismiss="modal" id="btnSaveProject">Save</button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <div class="modal-footer">
+                                    <button type="button" disabled onclick="submitChangePassWord()" class="btn btn-primary" data-dismiss="modal" id="btnChangePassWord">Save</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
@@ -195,6 +198,25 @@
             });
         </script>*@
 
+    <!--Validation form-->
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/FormValidation/changePassWordAdmin.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            console.log($("#frmChangePassWordAdmin").valid());
+            $("#frmChangePassWordAdmin").change(function () {
+                if ($("#frmChangePassWordAdmin").valid()) {
+                    $('#btnChangePassWord').prop('disabled', false);
+                }
+                else {
+                    $('#btnChangePassWord').prop('disabled', true);
+                }
+            });
+
+        });
+
+    </script>
+    <!--End Validation form-->
     <!--event when click Category-->
     <script type="text/javascript">
         function category()
