@@ -4,7 +4,7 @@
             required: true,
             maxlength: 30
         },
-        password: {
+        passWord: {
             required: true,
             maxlength: 30
         }

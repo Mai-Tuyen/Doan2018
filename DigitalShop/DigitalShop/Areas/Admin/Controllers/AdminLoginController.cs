@@ -24,7 +24,7 @@ namespace DigitalShop.Areas.Admin.Controllers
             return View("_AdminLogin");
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<bool> CheckLogin(string userName, string passWord)
         {
             var check = adminRepository.CheckAdminLogin(userName, passWord);

@@ -8,7 +8,7 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    @*<button type="button" class="btn btn-info " style="margin-bottom: 10px" id="btnAddImport">Add Order</button>*@
+                    <button type="button" class="btn btn-info " style="margin-bottom: 10px" id="btnAddOrder">Add New Order</button>
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                             <tr>
@@ -104,6 +104,17 @@
                 }
             });
     };
+    $("#btnAddOrder").click(function () {
+        $.ajax({
+            async: true,
+            method: "Get",
+            url: '@Url.Action("AddNewOrder", "AdminOrder")',
+            success: function (response) {
+                $("#contentAdmin").html("");
+                $("#contentAdmin").html(response);
+            }
+        })
+    });
     function showDetail(id) {
          $.ajax({
             async: true,

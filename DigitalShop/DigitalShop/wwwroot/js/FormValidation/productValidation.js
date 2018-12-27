@@ -14,9 +14,6 @@
                 required: true,
                 min: 0
             },
-            chooseAvatar: {
-                required:true
-            },
             Description: {
                 required:true
             }

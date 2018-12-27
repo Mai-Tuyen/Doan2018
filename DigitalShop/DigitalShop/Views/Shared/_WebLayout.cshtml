@@ -10,7 +10,7 @@
 
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    @*<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
     <style>
         /*the container must be positioned relative:*/
         .autocomplete {
@@ -139,88 +139,92 @@
     </div>
     <!--End Modal Update Customer Infomation-->
     <!-- log in -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-center">Log In</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="col-form-label">Email</label>
-                        <input type="email" class="form-control" placeholder=" " id="userNameLogin" required="">
+    <form id="frmLoginCustomer">
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center">Log In</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Password</label>
-                        <input type="password" class="form-control" placeholder=" " id="passWordLogin" required="">
-                    </div>
-                    <div class="right-w3l">
-                        <button type="button" class="form-control" id="btnLogin">Log in</button>
-                    </div>
-                    <div class="sub-w3l">
-                        <div class="custom-control custom-checkbox mr-sm-2">
-                            <input type="checkbox" id="checkRemember">
-                            <label>Remember me?</label>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-form-label">Email</label>
+                            <input type="email" class="form-control" placeholder=" " id="userNameLogin" name="userNameCustomerLogin" required="">
                         </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Password</label>
+                            <input type="password" class="form-control" placeholder=" " id="passWordLogin" name="passWordCustomerLogin" required="">
+                        </div>
+                        <div class="right-w3l">
+                            <button type="button" disabled class="form-control btn-primary" id="btnLoginCustomer">Log in</button>
+                        </div>
+                        <div class="sub-w3l">
+                            <div class="custom-control custom-checkbox mr-sm-2">
+                                <input type="checkbox" id="checkRemember">
+                                <label>Remember me?</label>
+                            </div>
+                        </div>
+                        <p class="text-center dont-do mt-3">
+                            Don't have an account?
+                            <a href="#" data-toggle="modal" data-target="#exampleModal2">
+                                Register Now
+                            </a>
+                        </p>
                     </div>
-                    <p class="text-center dont-do mt-3">
-                        Don't have an account?
-                        <a href="#" data-toggle="modal" data-target="#exampleModal2">
-                            Register Now
-                        </a>
-                    </p>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
     <!-- register -->
-    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Register</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <form id="frmRegisterCustomer">
+        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Register</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label class="col-form-label">User Name(Email)</label>
+                            <input type="email" class="form-control" placeholder=" " id="UserName" name="UserName" required="">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Display Name</label>
+                            <input type="text" class="form-control" placeholder=" " id="DisplayName" name="DisplayName" required="">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Phone</label>
+                            <input type="number" class="form-control" placeholder=" " id="Phone" name="Phone" required="">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Address</label>
+                            <input type="text" class="form-control" placeholder=" " id="Address" name="Address" required="">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Password</label>
+                            <input type="password" class="form-control" placeholder=" " id="password1" name="password1" required="">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Confirm Password</label>
+                            <input type="password" class="form-control" placeholder=" " name="ConfirmPassword" id="password2" required="">
+                        </div>
+                        <div class="right-w3l">
+                            <button type="button" disabled class="form-control btn-primary" id="btnRegister">Register</button>
+                        </div>
+
+                    </div>
+
                 </div>
-                <div class="modal-body">
-
-                    <div class="form-group">
-                        <label class="col-form-label">User Name(Email)</label>
-                        <input type="email" class="form-control" placeholder=" " id="UserName" required="">
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Display Name</label>
-                        <input type="text" class="form-control" placeholder=" " id="DisplayName" required="">
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Phone</label>
-                        <input type="number" class="form-control" placeholder=" " id="Phone" required="">
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Address</label>
-                        <input type="text" class="form-control" placeholder=" " id="Address" required="">
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Password</label>
-                        <input type="password" class="form-control" placeholder=" " id="password1" required="">
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Confirm Password</label>
-                        <input type="password" class="form-control" placeholder=" " name="Confirm Password" id="password2" required="">
-                    </div>
-                    <div class="right-w3l">
-                        <button type="button" class="form-control" id="btnRegister">Register</button>
-                    </div>
-
-                </div>
-
             </div>
         </div>
-    </div>
+    </form>
     <!-- //modal -->
     <!-- //top-header -->
     <!-- header-bottom-->
@@ -253,12 +257,12 @@
                         <div class="col-2 top_nav_right text-center mt-sm-0 mt-2">
                             <div class="wthreecartaits wthreecartaits2 cart cart box_1">
                                 <form action="#" method="post" class="last">
-                                        <input type="hidden" name="cmd" value="_cart">
-                                        <input type="hidden" name="display" value="1">
-                                        <button class="btn w3view-cart" type="submit" name="submit" value="">
-                                            <i class="fas fa-cart-arrow-down"></i>
-                                        </button>
-                                    </form>
+                                    <input type="hidden" name="cmd" value="_cart">
+                                    <input type="hidden" name="display" value="1">
+                                    <button class="btn w3view-cart" type="submit" name="submit" value="">
+                                        <i class="fas fa-cart-arrow-down"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                         <!-- //cart details -->
@@ -320,10 +324,10 @@
                         </li>
 
                         <li class="nav-item mr-lg-2 mb-lg-0 mb-2">
-                            <a class="nav-link" href="about.html">About Us</a>
+                            <a class="nav-link" href="@Url.Action("About","Home")">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contact Us</a>
+                            <a class="nav-link" href="@Url.Action("Contact","Home")">Contact Us</a>
                         </li>
                     </ul>
                 </div>
@@ -427,22 +431,22 @@
                         <h3 class="text-white font-weight-bold mb-3">Categories</h3>
                         <ul>
                             <li class="mb-3">
-                                <a href="product.html">Mobiles </a>
+                                <a href="@Url.Action("GetListProductByCategory", "Product", new {categoryName="Smart Phone"})">Smart Phone </a>
                             </li>
                             <li class="mb-3">
-                                <a href="product.html">Computers</a>
+                                <a href="@Url.Action("GetListProductByCategory", "Product", new {categoryName="Laptop"})">Laptop</a>
                             </li>
                             <li class="mb-3">
-                                <a href="product.html">TV, Audio</a>
+                                <a href="@Url.Action("GetListProductByCategory", "Product", new {categoryName="Tivi"})">TV</a>
                             </li>
                             <li class="mb-3">
-                                <a href="product2.html">Smartphones</a>
+                                <a href="@Url.Action("GetListProductByCategory", "Product", new {categoryName="Head Phone"})">Head Phone</a>
                             </li>
                             <li class="mb-3">
-                                <a href="product.html">Washing Machines</a>
+                                <a href="@Url.Action("GetListProductByCategory", "Product", new {categoryName="Audio"})">Audio</a>
                             </li>
                             <li>
-                                <a href="product2.html">Refrigerators</a>
+                                <a href="@Url.Action("GetListProductByCategory", "Product", new {categoryName="Smart Watch"})">SmartWatch</a>
                             </li>
                         </ul>
                     </div>
@@ -452,22 +456,10 @@
                         <h3 class="text-white font-weight-bold mb-3">Quick Links</h3>
                         <ul>
                             <li class="mb-3">
-                                <a href="about.html">About Us</a>
+                                <a href="@Url.Action("About","Home")">About Us</a>
                             </li>
                             <li class="mb-3">
-                                <a href="contact.html">Contact Us</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="help.html">Help</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="faqs.html">Faqs</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="terms.html">Terms of use</a>
-                            </li>
-                            <li>
-                                <a href="privacy.html">Privacy Policy</a>
+                                <a href="@Url.Action("Contact","Home")">Contact Us</a>
                             </li>
                         </ul>
                     </div>
@@ -496,38 +488,8 @@
                     <div class="col-md-3 col-sm-6 footer-grids w3l-agileits mt-md-0 mt-4">
                         <!-- newsletter -->
                         <h3 class="text-white font-weight-bold mb-3">Newsletter</h3>
-                        <p class="mb-3">Free Delivery on your first order!</p>
-                        <form action="#" method="post">
-                            <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Email" name="email" required="">
-                                <input type="submit" value="Go">
-                            </div>
-                        </form>
+                        <p class="mb-3">Free Delivery on all order!</p>
                         <!-- //newsletter -->
-                        <!-- social icons -->
-                        <div class="footer-grids  w3l-socialmk mt-3">
-                            <h3 class="text-white font-weight-bold mb-3">Follow Us on</h3>
-                            <div class="social">
-                                <ul>
-                                    <li>
-                                        <a class="icon fb" href="#">
-                                            <i class="fab fa-facebook-f"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="icon tw" href="#">
-                                            <i class="fab fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="icon gp" href="#">
-                                            <i class="fab fa-google-plus-g"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- //social icons -->
                     </div>
                 </div>
                 <!-- //quick links -->
@@ -616,24 +578,6 @@
         });
     </script>
     <!-- //cart-js -->
-    <!-- password-script -->
-    <script>
-        window.onload = function () {
-            document.getElementById("password1").onchange = validatePassword;
-            document.getElementById("password2").onchange = validatePassword;
-        }
-
-        function validatePassword() {
-            var pass2 = document.getElementById("password2").value;
-            var pass1 = document.getElementById("password1").value;
-            if (pass1 != pass2)
-                document.getElementById("password2").setCustomValidity("Passwords Don't Match");
-            else
-                document.getElementById("password2").setCustomValidity('');
-            //empty string means no validation error
-        }
-    </script>
-    <!-- //password-script -->
     <!-- imagezoom -->
     <script src="~/js/imagezoom.js"></script>
     <!-- //imagezoom -->
@@ -693,6 +637,37 @@
     <script src="~/js/bootstrap.js"></script>
     <!-- //for bootstrap working -->
     <!-- //js-files -->
+    <!--Validate Login Form-->
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/FormValidation/loginCustomerValidation.js"></script>
+    <script src="~/js/FormValidation/registerCustomerValidation.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            console.log($("#frmLoginCustomer").valid());
+            $("#frmLoginCustomer").change(function () {
+                if ($("#frmLoginCustomer").valid()) {
+                    $('#btnLoginCustomer').prop('disabled', false);
+                }
+                else {
+                    $('#btnLoginCustomer').prop('disabled', true);
+                }
+            });
+
+            console.log($("#frmRegisterCustomer").valid());
+            $("#frmRegisterCustomer").change(function () {
+                if ($("#frmRegisterCustomer").valid()) {
+                    $('#btnRegister').prop('disabled', false);
+                }
+                else {
+                    $('#btnRegister').prop('disabled', true);
+                }
+            });
+
+        });
+    </script>
+
+
+    <!--End Validate Login Form-->
     <!--autocomplete search-->
     <script>
         function autocomplete(inp, arr) {
@@ -798,6 +773,9 @@
         //autocomplete(document.getElementById("inputSearchProduct"), countries);
 
     </script>
+
+
+
     <script type="text/javascript">
         var listProductName = [""];
         $.ajax({
@@ -816,40 +794,46 @@
         });
         //autocomplete(document.getElementById("inputSearchProduct"), listProductName);
     </script>
+
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            $("#btnRegister").click(function () {
-            $.ajax({
-                async: true,
-                method: "Post",
-                url: '@Url.Action("Register", "Customer")',
-                data: {
-                    newCustomer: newCustomer ={
-                    UserName : $("#UserName").val(),
-                        PassWord: $("#password1").val(),
-                    DisplayName : $("#DisplayName").val(),
-                        Phone : $("#Phone").val(),
-                        Address : $("#Address").val(),
-                }
-               },
-                success: function (response) {
-                    if (response == "") {
-                        window.location.href = '@Url.Action("Index", "Home")';
-                        alert("Register Successfully !");
+            $(document).ready(function () {
+                $("#btnRegister").click(function () {
+                    if ($("#password2").val() == $("#password1").val()) {
+                        $.ajax({
+                            async: true,
+                            method: "Post",
+                            url: '@Url.Action("Register", "Customer")',
+                            data: {
+                                newCustomer: newCustomer = {
+                                    UserName: $("#UserName").val(),
+                                    PassWord: $("#password1").val(),
+                                    DisplayName: $("#DisplayName").val(),
+                                    Phone: $("#Phone").val(),
+                                    Address: $("#Address").val(),
+                                }
+                            },
+                            success: function (response) {
+                                if (response == "") {
+                                    window.location.href = '@Url.Action("Index", "Home")';
+                                    alert("Register Successfully !");
+                                }
+                                else {
+                                    alert(response);
+                                }
+                            },
+                            error: function () {
+                                alert('Error !');
+                            }
+                        });
                     }
                     else {
-                        alert(response);
+                        alert("Password not match !");
                     }
-                },
-                error: function () {
-                    alert('Error !');
-                }
+                });
             });
-        });
-        });
 
-        $("#btnLogin").click(function () {
+        $("#btnLoginCustomer").click(function () {
             $.ajax({
                 async: true,
                 method: "Post",

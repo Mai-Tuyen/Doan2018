@@ -1,0 +1,165 @@
+﻿@model List<DigitalShop.Models.ProductViewModel>
+<!DOCTYPE html>
+<html>
+<head>
+    <body>
+        <form id="frmAddNewOrder">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Import
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.Label("Ship Name", null, new { @class = "control-label col-md-2" })
+                                <input type="text" id="shipName2" name="shipName2" class="form-control col-md-10">
+                            </div>
+                            <div class="form-group" style="margin-bottom:30px ;float: left; width: 100%;">
+                                @Html.Label("Ship Mobile", null, new { @class = "control-label col-md-2" })
+                                <input type="text" id="shipMobile2" name="shipMobile2" class="form-control col-md-10">
+                            </div>
+                            <div class="form-group" style="margin-bottom:30px ;float: left; width: 100%;">
+                                @Html.Label("Ship Address", null, new { @class = "control-label col-md-2" })
+                                <input type="text" id="shipAddress2" name="shipAddress2" class="form-control col-md-10">
+                            </div>
+
+                            <div class="form-group" style="float: left; width: 100%;">
+                                @Html.Label("List Product", null, new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Name
+                                            </th>
+
+                                            <th>
+                                                Quantity
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    @if (Model.Count() != 0)
+                                    {
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+
+                                                <tr class="odd gradeX">
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Name)
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="number" data-productId="@item.Id" class="form-control quantityOrder">
+                                                    </td>
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    }
+                                </table>
+                                <div style="text-align:center; margin-left:110px">
+                                    <button type="button" style="width:200px" disabled class="btn btn-primary" id="btnSaveOrder">Add</button>
+                                </div>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+            </div>
+        </form>
+        <script>
+    function GetData() {
+        $.ajax({
+            async: true,
+            method: "GET",
+            dataType: "html",
+            url: '@Url.Action("GetListOrder", "AdminOrder")',
+                data: {},
+                success: function (response) {
+                    $("#contentAdmin").html("");
+                    $("#contentAdmin").html(response);
+                },
+                error: function () {
+                    alert('error !');
+                }
+            });
+    };
+
+            var orderDetailViewModels = [];
+            var j = 0;
+
+    $(document).ready(function () {
+        $("#btnSaveImport").click(function () {
+            $(".quantityOrder").each(function () {
+                orderDetailViewModels[j] = {
+                        ProductId: $(this).attr("data-productId"),
+                        Quantity: $(this).val()
+                    }
+                    j = j + 1;
+
+
+            });
+
+            $.ajax({
+                async: true,
+                method: "post",
+                url: '@Url.Action("CheckOut", "Cart")',
+                data: {
+                    orderViewModel: {
+                        ShipName: $("#shipName2").val(),
+                        ShipMobile: $("#shipMobile2").val(),
+                        ShipAddress: $("#shipAddress2").val()
+                    },
+                    orderDetailViewModels: orderDetailViewModels
+                },
+                 success: function (response) {
+                    if (response != "") {
+                        alert(response);
+                    }
+                    else {
+                        GetData();
+                        alert("Successfully !");
+                    }
+                },
+                error: function () {
+                    alert("Fail!");
+                }
+
+            });
+        });
+    });
+        </script>
+        <!--Validation form-->
+        <script src="~/js/jquery.validate.min.js"></script>
+        <script src="~/js/FormValidation/addNewOrderValidation.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                console.log($("#frmAddNewOrder").valid());
+                $("#frmAddNewOrder").change(function () {
+                    if ($("#frmAddNewOrder").valid()) {
+                        $('#btnSaveOrder').prop('disabled', false);
+                    }
+                    else {
+                        $('#btnSaveOrder').prop('disabled', true);
+                    }
+                });
+
+            });
+        </script>
+        <!--End Validation form-->
+        <script>
+            $(document).ready(function () {
+                $('#dataTables-example').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+    </body>
+</head>
+</html>

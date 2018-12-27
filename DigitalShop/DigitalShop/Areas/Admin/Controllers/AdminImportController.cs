@@ -68,6 +68,7 @@ namespace DigitalShop.Areas.Admin.Controllers
         public IActionResult AddImport()
         {
             var productViewModel = productRepository.GetListProduct()
+                .Where(x=>x.Status==true)
                 .Select(x => new ProductViewModel
                 {
                     Id = x.Id,

@@ -142,6 +142,10 @@ namespace DigitalShop.Controllers
             {
                 searchResult = searchResult.Where(x => x.Name.Trim().ToLower().Contains(searchProduct.Trim().ToLower())).ToList();
             }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.TextSearch = searchProduct;
             ViewBag.UserNameLogin = _httpContextAccessor.HttpContext.Request.Cookies["userName"];
             return View("_ListSearchResult", searchResult);

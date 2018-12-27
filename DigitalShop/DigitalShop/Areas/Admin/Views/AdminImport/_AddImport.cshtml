@@ -56,8 +56,9 @@
                                         </tbody>
                                     }
                                 </table>
-                                <button type="button" disabled class="btn btn-primary" id="btnSaveImport">Save</button>
-
+                                <div style="text-align:center; margin-left:110px" >
+                                    <button type="button" style="width:200px" disabled class="btn btn-primary" id="btnSaveImport">Import</button>
+                                </div>
                             </div>
                             <!-- /.table-responsive -->
                         </div>
@@ -117,8 +118,8 @@
                         alert(response);
                     }
                     else {
-                        alert("Successfully !");
                         GetData();
+                        alert("Successfully !");
                     }
                 },
                 error: function () {

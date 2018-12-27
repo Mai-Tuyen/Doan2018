@@ -103,6 +103,17 @@ namespace DigitalShop.Areas.Admin.Controllers
             orderRepository.Save();
         }
 
+        public IActionResult AddNewOrder()
+        {
+            var productViewModel = productRepository.GetListProduct()
+              .Where(x => x.Status == true)
+              .Select(x => new ProductViewModel
+              {
+                  Id = x.Id,
+                  Name = x.Name,
+              }).ToList();
+            return PartialView("_AddNewOrder",productViewModel);
+        }
 
     }
 }

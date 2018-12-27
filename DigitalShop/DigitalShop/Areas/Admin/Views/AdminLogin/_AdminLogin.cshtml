@@ -37,7 +37,7 @@
                                     <input class="form-control" placeholder="User name" name="userName" type="text" autofocus id="userName">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="" id="passWord">
+                                    <input class="form-control" placeholder="Password" name="passWord" type="password" value="" id="passWord">
                                 </div>
                                 <div class="checkbox">
                                     <label>
@@ -45,7 +45,7 @@
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <button disabled class="btn btn-lg btn-success btn-block" id="btnlogin">Login</button>
+                                <button  class="btn btn-lg btn-success btn-block" id="btnLoginAdmin">Login</button>
                             </fieldset>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
     <script src="~/Admin/dist/js/sb-admin-2.min.js"></script>
 
     <!--Validation form-->
-    <script src="~/js/jquery.validate.min.js"></script>
+    @*<script src="~/js/jquery.validate.min.js"></script>
     <script src="~/js/FormValidation/loginAdminValidation.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -79,14 +79,14 @@
 
         });
 
-    </script>
+    </script>*@
     <!--End Validation form-->
     <script type="text/javascript">
-            $("#btnlogin").click(function () {
+        $("#btnLoginAdmin").click(function () {
                 $.ajax({
                     async: true,
-                    method: "Post",
-                    url: '@Url.Action("CheckLogin","AdminLogin")',
+                    method: "Get",
+                    url: '@Url.Action("CheckLogin", "AdminLogin")',
                     data: {
                         userName: $("#userName").val(),
                         passWord: $("#passWord").val()
