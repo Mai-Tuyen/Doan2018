@@ -179,7 +179,7 @@
     <script type="text/javascript">
             $(document).ready(function () {
                 console.log($("#frmUpdateProduct").valid());
-                $("#frmUpdateProduct").change(function () {
+                $("#frmUpdateProduct").keyup(function () {
                     if ($("#frmUpdateProduct").valid()) {
                         $('#btnSaveProject').prop('disabled', false);
                     }

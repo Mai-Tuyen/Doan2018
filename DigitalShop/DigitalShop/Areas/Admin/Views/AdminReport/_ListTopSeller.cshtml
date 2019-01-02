@@ -17,6 +17,10 @@
                         <input type="date" class="subcontent__input form-control" id="endDate">
                     </div>
                     <button type="submit" onclick="submitTopSeller()" class="btn btn-primary col-md-1" id="btnShowTopSeller" style="margin-bottom:50px">Show</button>
+                    @if (ViewBag.StartDate != null || ViewBag.EndDate != null)
+                    {
+                        <label class="control-label col-md-12" style="margin-bottom:50px; text-align:center">@ViewBag.StartDate   --   @ViewBag.EndDate</label>
+                    }
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                             <tr>

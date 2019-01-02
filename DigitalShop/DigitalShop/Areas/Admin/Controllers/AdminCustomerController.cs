@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DigitalShop.Models;
 using DigitalShop.Service.IRepository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalShop.Areas.Admin.Controllers
@@ -14,9 +15,12 @@ namespace DigitalShop.Areas.Admin.Controllers
     public class AdminCustomerController : Controller
     {
         private readonly ICustomerRepository customerRepository;
-        public AdminCustomerController(ICustomerRepository customerRepository)
+        private readonly IHttpContextAccessor httpContextAccessor;
+        public AdminCustomerController(ICustomerRepository customerRepository,
+            IHttpContextAccessor httpContextAccessor)
         {
             this.customerRepository = customerRepository;
+            this.httpContextAccessor = httpContextAccessor;
         }
         public IActionResult Index()
         {
@@ -40,6 +44,13 @@ namespace DigitalShop.Areas.Admin.Controllers
         public void Deactivate(int id)
         {
             customerRepository.Deactivate(id);
+            var customerDeactivate = customerRepository.GetById(id);
+            var userNamecustomerLogin = httpContextAccessor.HttpContext.Request.Cookies["emailCustomer"];
+            if (customerDeactivate.UserName== userNamecustomerLogin)
+            {
+                Response.Cookies.Delete("userName");
+                Response.Cookies.Delete("emailCustomer");
+            }
         }
         public void Activate(int id)
         {

@@ -68,7 +68,7 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 console.log($("#frmCustomerInfo").valid());
-                $("#frmCustomerInfo").change(function () {
+                $("#frmCustomerInfo").keyup(function () {
                     if ($("#frmCustomerInfo").valid()) {
                         $('#btnSaveCustomerInfo').prop('disabled', false);
                     }

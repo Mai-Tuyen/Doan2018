@@ -60,7 +60,7 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 console.log($("#frmUpdateCategory").valid());
-                $("#frmUpdateCategory").change(function () {
+                $("#frmUpdateCategory").keyup(function () {
                     if ($("#frmUpdateCategory").valid()) {
                         $('#btnSaveProject').prop('disabled', false);
                     }

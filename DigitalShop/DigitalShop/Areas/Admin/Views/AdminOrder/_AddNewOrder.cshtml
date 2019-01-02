@@ -62,7 +62,7 @@
                                     }
                                 </table>
                                 <div style="text-align:center; margin-left:110px">
-                                    <button type="button" style="width:200px" disabled class="btn btn-primary" id="btnSaveOrder">Add</button>
+                                    <button type="submit" style="width:200px" disabled class="btn btn-primary" id="btnSaveOrder">Add</button>
                                 </div>
                             </div>
                             <!-- /.table-responsive -->
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </form>
-        <script>
+<script>
     function GetData() {
         $.ajax({
             async: true,
@@ -94,22 +94,22 @@
             var orderDetailViewModels = [];
             var j = 0;
 
-    $(document).ready(function () {
-        $("#btnSaveImport").click(function () {
-            $(".quantityOrder").each(function () {
-                orderDetailViewModels[j] = {
-                        ProductId: $(this).attr("data-productId"),
-                        Quantity: $(this).val()
+            $(document).ready(function () {
+            $("#frmAddNewOrder").submit(function () {
+                $(".quantityOrder").each(function () {
+                    if ($(this).val() != 0 && $(this).val() != null) {
+                        orderDetailViewModels[j] = {
+                            ProductId: $(this).attr("data-productId"),
+                            Quantity: $(this).val()
+                        }
+                        j = j + 1;
                     }
-                    j = j + 1;
-
-
             });
 
             $.ajax({
                 async: true,
                 method: "post",
-                url: '@Url.Action("CheckOut", "Cart")',
+                url: '@Url.Action("CheckOut", "AdminOrder")',
                 data: {
                     orderViewModel: {
                         ShipName: $("#shipName2").val(),
@@ -131,8 +131,9 @@
                     alert("Fail!");
                 }
 
-            });
-        });
+                    });
+                    return false;
+                });
     });
         </script>
         <!--Validation form-->
@@ -141,7 +142,7 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 console.log($("#frmAddNewOrder").valid());
-                $("#frmAddNewOrder").change(function () {
+                $("#frmAddNewOrder").keyup(function () {
                     if ($("#frmAddNewOrder").valid()) {
                         $('#btnSaveOrder').prop('disabled', false);
                     }

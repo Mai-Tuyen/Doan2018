@@ -26,6 +26,11 @@ namespace DigitalShop.Areas.Admin.Controllers
 
         public IActionResult GetListAdmin()
         {
+            var rootAdmin = adminRepository.GetByUserName(User.Identity.Name);
+            if (rootAdmin.Type != TypeAdmin.ROOT)
+            {
+                return PartialView("_NotHaveAccess");
+            }
             var listAdmin = adminRepository.GetListAdmin();
             List<AdminViewModel> adminViewModels = new List<AdminViewModel>();
             adminViewModels = listAdmin.Select(x => new AdminViewModel

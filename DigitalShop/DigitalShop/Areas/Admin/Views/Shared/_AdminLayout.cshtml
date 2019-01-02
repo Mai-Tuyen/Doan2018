@@ -86,6 +86,9 @@
                             <!-- /input-group -->
                         </li>
                         <li>
+                            <a href="" onclick="order(); return false;"><i class="fa fa-table fa-fw"></i> Order Pending</a>
+                        </li>
+                        <li>
                             <a href=""><i class="fa fa-bar-chart-o fa-fw"></i> Report<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -100,23 +103,22 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <li>
-                            <a href="" onclick="category(); return false;"><i class="fa fa-table fa-fw"></i> Category</a>
-                        </li>
-                        <li>
-                            <a href="" onclick="manufacturer(); return false;"><i class="fa fa-table fa-fw"></i> Manufacturer</a>
-                        </li>
+
                         <li>
                             <a href="" onclick="product(); return false;"><i class="fa fa-table fa-fw"></i> Product</a>
                         </li>
                         <li>
                             <a href="" onclick="importproduct(); return false;"><i class="fa fa-table fa-fw"></i> Import</a>
                         </li>
-                        <li>
-                            <a href="" onclick="order(); return false;"><i class="fa fa-table fa-fw"></i> Order Pending</a>
-                        </li>
+
                         <li>
                             <a href="" onclick="customer(); return false;"><i class="fa fa-user fa-fw"></i> Customer</a>
+                        </li>
+                        <li>
+                            <a href="" onclick="category(); return false;"><i class="fa fa-table fa-fw"></i> Category</a>
+                        </li>
+                        <li>
+                            <a href="" onclick="manufacturer(); return false;"><i class="fa fa-table fa-fw"></i> Manufacturer</a>
                         </li>
                         <li>
                             <a href="" onclick="admin(); return false;"><i class="fa fa-user fa-fw"></i> Admin Management</a>
@@ -331,8 +333,15 @@
                     url: '@Url.Action("GetListAdmin", "AdminManagement",new { area = "Admin"})',
                     data: {},
                     success: function (response) {
-                        $("#contentAdmin").html("");
-                        $("#contentAdmin").html(response);
+                        if (response==null) {
+                            alert("Your account doesn't have permisstion !");
+                        }
+                        else {
+                            
+                            $("#contentAdmin").html("");
+                            $("#contentAdmin").html(response);
+                        }
+                        
                     }
                 });
         }

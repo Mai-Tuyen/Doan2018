@@ -186,7 +186,7 @@ namespace DigitalShop.Controllers
             return View(homeModel);  
         }
 
-        public List<string> GetListProductName()
+        public JsonResult GetListProductName()
         {
             var listProductViewModel = productRepository.GetListProduct()
                .Where(x => x.Status == true)
@@ -216,9 +216,9 @@ namespace DigitalShop.Controllers
             List<string> listProductName = new List<string>();
             foreach (var item in listProductViewModel)
             {
-                listProductName.Add(item.Name.ToString());
+                listProductName.Add(item.Name);
             }
-            return listProductName;
+            return new JsonResult(listProductName);
         }
 
         public IActionResult About()

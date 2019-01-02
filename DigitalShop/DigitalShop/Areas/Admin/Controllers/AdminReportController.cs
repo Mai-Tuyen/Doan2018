@@ -90,11 +90,12 @@ namespace DigitalShop.Areas.Admin.Controllers
             if (startDate != null)
             {
                 listOrderDetail = listOrderDetail.Where(x => x.Order.CreateAt.Day >= _startDate.Day).ToList();
+                ViewBag.StartDate = _startDate.ToShortDateString();
             }
             if (endDate != null)
             {
                 listOrderDetail = listOrderDetail.Where(x => x.Order.CreateAt.Day <= _endDate.Day).ToList();
-
+                ViewBag.EndDate = _endDate.ToShortDateString();
             }
 
             foreach (var productViewModel in listProductViewModel)
@@ -143,10 +144,12 @@ namespace DigitalShop.Areas.Admin.Controllers
             if (startDate!=null)
             {
                 listOrderSumary = listOrderSumary.Where(x => x.CreateAt.Day >= _startDate.Day).ToList();
+                ViewBag.StartDate = _startDate.ToShortDateString();
             }
             if (endDate != null)
             {
                 listOrderSumary = listOrderSumary.Where(x => x.CreateAt.Day <= _endDate.Day).ToList();
+                ViewBag.EndDate = _endDate.ToShortDateString();
             }
 
             var listOrderDetail = orderRepository.GetAllOrderDetail().ToList();

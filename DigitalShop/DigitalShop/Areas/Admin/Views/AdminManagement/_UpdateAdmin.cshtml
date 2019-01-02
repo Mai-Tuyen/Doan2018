@@ -88,7 +88,7 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 console.log($("#formUpdateAdmin").valid());
-                $("#formUpdateAdmin").change(function () {
+                $("#formUpdateAdmin").keyup(function () {
                     if ($("#formUpdateAdmin").valid()) {
                         $('#btnSaveProject').prop('disabled', false);
                     }

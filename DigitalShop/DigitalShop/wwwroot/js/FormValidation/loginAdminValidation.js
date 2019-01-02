@@ -1,10 +1,10 @@
 ﻿$("#formAdminLogin").validate({
     rules: {
-        userName: {
+        userNameAdmin: {
             required: true,
             maxlength: 30
         },
-        passWord: {
+        passWordAdmin: {
             required: true,
             maxlength: 30
         }

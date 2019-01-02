@@ -45,6 +45,7 @@ namespace DigitialShop.Service.Repository
                 .Include(p=>p.Category)
                 .Include(p=>p.Manufacturer)
                 .Include(p=>p.Admin)
+                .Where(x=>x.Category.Status==true && x.Manufacturer.Status==true)
                 .ToList();
         }
 

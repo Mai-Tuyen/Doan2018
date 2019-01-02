@@ -61,7 +61,7 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 console.log($("#frmUpdateManufacturer").valid());
-                $("#frmUpdateManufacturer").change(function () {
+                $("#frmUpdateManufacturer").keyup(function () {
                     if ($("#frmUpdateManufacturer").valid()) {
                         $('#btnSaveProject').prop('disabled', false);
                     }

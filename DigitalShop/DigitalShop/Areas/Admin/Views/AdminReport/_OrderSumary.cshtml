@@ -19,6 +19,15 @@
                     <div class="col-md-4">
                         <button type="submit" onclick="submitOrderSumary()" class="btn btn-primary" id="btnShowTopSeller" style="margin-bottom:15px">Show</button>
                     </div>
+                    @if (ViewBag.StartDate != null || ViewBag.EndDate != null)
+                    {
+                        <label class="control-label col-md-12">@ViewBag.StartDate   --   @ViewBag.EndDate</label>
+                    }
+                    else
+                    {
+                        <label class="control-label col-md-12">All</label>
+
+                    }
                     @Html.Label("Orders        : ", null, new { @class = "control-label col-md-2" })
                     <label class="control-label col-md-10">@ViewBag.TotalOrder</label>
                     @Html.Label("Total Import  : ", null, new { @class = "control-label col-md-2" })

@@ -34,10 +34,10 @@
                         <div class="panel-body">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="User name" name="userName" type="text" autofocus id="userName">
+                                    <input class="form-control" placeholder="User name" name="userNameAdmin" type="text" autofocus id="userNameAdmin">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="passWord" type="password" value="" id="passWord">
+                                    <input class="form-control" placeholder="Password" name="passWordAdmin" type="password" value="" id="passWordAdmin">
                                 </div>
                                 <div class="checkbox">
                                     <label>
@@ -45,7 +45,7 @@
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <button  class="btn btn-lg btn-success btn-block" id="btnLoginAdmin">Login</button>
+                                <button type="submit"  class="btn btn-lg btn-success btn-block" disabled id="btnLoginAdmin">Login</button>
                             </fieldset>
                         </div>
                     </div>
@@ -63,48 +63,50 @@
     <script src="~/Admin/dist/js/sb-admin-2.min.js"></script>
 
     <!--Validation form-->
-    @*<script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
     <script src="~/js/FormValidation/loginAdminValidation.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             console.log($("#formAdminLogin").valid());
-            $("#formAdminLogin").change(function () {
+            $("#formAdminLogin").keyup(function () {
                 if ($("#formAdminLogin").valid()) {
-                    $('#btnlogin').prop('disabled', false);
+                    $('#btnLoginAdmin').prop('disabled', false);
                 }
                 else {
-                    $('#btnlogin').prop('disabled', true);
+                    $('#btnLoginAdmin').prop('disabled', true);
                 }
             });
-
         });
-
-    </script>*@
+    </script>
     <!--End Validation form-->
     <script type="text/javascript">
-        $("#btnLoginAdmin").click(function () {
+        $(document).ready(function () {
+
+            $("#formAdminLogin").submit(function () {
+                
                 $.ajax({
                     async: true,
                     method: "Get",
                     url: '@Url.Action("CheckLogin", "AdminLogin")',
                     data: {
-                        userName: $("#userName").val(),
-                        passWord: $("#passWord").val()
+                        userName: $("#userNameAdmin").val(),
+                        passWord: $("#passWordAdmin").val()
                     },
                     success: function (response) {
                         if (response == false) {
                             alert("Incorrect username or password !");
                         }
                         else {
-                            window.location.href = '@Url.Action("Index", "HomeAdmin")/'
+                            window.location.href = '@Url.Action("Index", "HomeAdmin")'
                         }
+                    },
+                    error: function () {
+                        alert("Fail !");
                     }
-                })
+                });
+                return false;
             });
-
+        });
     </script>
-
-
 </body>
-
 </html>

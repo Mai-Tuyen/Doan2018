@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DigitalShop.Entity;
 using DigitalShop.Models;
 using DigitalShop.Service.IRepository;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +16,14 @@ namespace DigitalShop.Areas.Admin.Controllers
     {
         private readonly IOrderRepository orderRepository;
         private readonly IProductRepository productRepository;
+        private readonly ICustomerRepository customerRepository;
         public AdminOrderController(IOrderRepository orderRepository,
-            IProductRepository productRepository)
+            IProductRepository productRepository,
+            ICustomerRepository customerRepository)
         {
             this.orderRepository = orderRepository;
             this.productRepository = productRepository;
+            this.customerRepository = customerRepository;
         }
         public IActionResult Index()
         {
@@ -113,6 +117,38 @@ namespace DigitalShop.Areas.Admin.Controllers
                   Name = x.Name,
               }).ToList();
             return PartialView("_AddNewOrder",productViewModel);
+        }
+
+        [HttpPost]
+        public string CheckOut(OrderViewModel orderViewModel, List<OrderDetailViewModel> orderDetailViewModels)
+        {
+            var errorMessage = "";
+            Order newOrder = new Order();
+                Customer newCustomer = new Customer();
+                newCustomer.UserName = "NoName_" + DateTime.Now.ToString("ddMMyyyyHHmmss");
+                newCustomer.Status = false;
+                customerRepository.Add(newCustomer);
+                newOrder.CustomerId = newCustomer.Id;
+           
+
+            newOrder.Code = "OD" + DateTime.Now.ToString("ddMMyyyyHHmmss");
+            newOrder.CreateAt = DateTime.Now;
+            newOrder.ShipName = orderViewModel.ShipName;
+            newOrder.ShipMobile = orderViewModel.ShipMobile;
+            newOrder.ShipAddress = orderViewModel.ShipAddress;
+            newOrder.Status = StatusOrder.PENDING;
+            orderRepository.Add(newOrder);
+            foreach (var item in orderDetailViewModels)
+            {
+                OrderDetail orderDetail = new OrderDetail()
+                {
+                    OrderId = newOrder.Id,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity
+                };
+                orderRepository.AddOrderDetail(orderDetail);
+            }
+            return errorMessage;
         }
 
     }

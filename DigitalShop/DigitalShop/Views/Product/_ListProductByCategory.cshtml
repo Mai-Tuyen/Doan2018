@@ -104,7 +104,7 @@
                                     </li>
                                     @foreach (var item in Model.ListManufacturer)
                                     {
-                                        <li>
+                                        <li class="chooseItem">
                                             <a href="@Url.Action("GetListProductByCategory","Product", new { @categoryName = ViewBag.CategoryName,@manufacturerId = item.Id,@minPrice= ViewBag.MinPrice,@maxPrice= ViewBag.MaxPrice })">@item.Name</a>
                                         </li>
                                     }
@@ -136,7 +136,7 @@
                                         <a href="@Url.Action("GetListProductByCategory","Product", new { @categoryName = ViewBag.CategoryName,@manufacturerId = ViewBag.ManufacturerId,@minPrice =3000,@maxPrice=5000 })">$3000 - $5000</a>
                                     </li>
                                     <li class="mt-1">
-                                        <a href="@Url.Action("GetListProductByCategory","Product", new { @categoryName = ViewBag.CategoryName,@manufacturerId = ViewBag.ManufacturerId,@maxPrice=5000 })">Over $5000</a>
+                                        <a href="@Url.Action("GetListProductByCategory","Product", new { @categoryName = ViewBag.CategoryName,@manufacturerId = ViewBag.ManufacturerId,@minPrice=5000 })">Over $5000</a>
                                     </li>
                                 </ul>
                             </div>
@@ -150,10 +150,3 @@
     </div>
     <!-- //top products -->
 </div>
-    <script>
-            //$(document).ready(function () {
-            //    $(".itemClick").click(function () {
-            //        $(".itemClick").css("color", "red");
-            //    });
-            //});
-    </script>

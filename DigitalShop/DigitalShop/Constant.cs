@@ -21,4 +21,11 @@ namespace DigitalShop
         public const string PENDING = "Pending";
         public const string CANCEL = "Cancel";
     }
+
+    public static class TypeAdmin
+    {
+        public const string ROOT = "Root";
+        public const string STAFF = "Staff";
+    }
+
 }
