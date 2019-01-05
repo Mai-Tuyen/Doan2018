@@ -25,7 +25,7 @@ namespace DigitalShop.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<bool> CheckLogin(string userName, string passWord)
+        public async Task<bool> CheckLogin(string userName, string passWord, bool rememberme)
         {
             var check = adminRepository.CheckAdminLogin(userName, passWord);
             if (check)
@@ -34,7 +34,15 @@ namespace DigitalShop.Areas.Admin.Controllers
                 identity.AddClaim(new Claim(ClaimTypes.Name, userName));
                 identity.AddClaim(new Claim(ClaimTypes.Name, passWord));
                 var principal = new ClaimsPrincipal(identity);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { IsPersistent = false });
+                if (rememberme)
+                {
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { IsPersistent = false, AllowRefresh =false, ExpiresUtc = DateTimeOffset.UtcNow.AddDays(5)});
+                }
+                else
+                {
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { IsPersistent = false, AllowRefresh = false, ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30), RedirectUri = "/Admin/AdminLogin/Index" });
+                }
+
                 return true;
             }
             else return false;

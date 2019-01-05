@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                        <input name="remember" type="checkbox" id="checkRemember">Remember Me
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
@@ -90,7 +90,8 @@
                     url: '@Url.Action("CheckLogin", "AdminLogin")',
                     data: {
                         userName: $("#userNameAdmin").val(),
-                        passWord: $("#passWordAdmin").val()
+                        passWord: $("#passWordAdmin").val(),
+                        rememberme: document.getElementById('checkRemember').checked
                     },
                     success: function (response) {
                         if (response == false) {

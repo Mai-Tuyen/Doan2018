@@ -649,6 +649,9 @@
                 var input = document.getElementById("inputSearchProduct");
                 var newAwesomplete = new Awesomplete(input);
                 newAwesomplete.list = response
+                var input2 = document.getElementById("inputSearchProduct2");
+                var newAwesomplete2 = new Awesomplete(input2);
+                newAwesomplete2.list = response
                 },  
                 error: function () {
                     alert(' error !');

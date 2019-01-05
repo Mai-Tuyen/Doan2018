@@ -140,7 +140,7 @@
                         <div class="form-group">
                             @Html.Label("Description", null, new { @class = "control-label col-md-2" })
                             <div class="col-md-4">
-                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @style = "width: 800px;" })
+                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @style = "width: 800px; height:250px" })
                             </div>
                         </div>
 
@@ -179,7 +179,7 @@
     <script type="text/javascript">
             $(document).ready(function () {
                 console.log($("#frmUpdateProduct").valid());
-                $("#frmUpdateProduct").keyup(function () {
+                $("#frmUpdateProduct").change(function () {
                     if ($("#frmUpdateProduct").valid()) {
                         $('#btnSaveProject').prop('disabled', false);
                     }

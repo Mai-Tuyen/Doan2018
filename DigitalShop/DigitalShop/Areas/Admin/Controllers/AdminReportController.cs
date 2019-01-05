@@ -89,12 +89,13 @@ namespace DigitalShop.Areas.Admin.Controllers
             var _endDate = endDate != null ? (DateTime)endDate : DateTime.Now;
             if (startDate != null)
             {
-                listOrderDetail = listOrderDetail.Where(x => x.Order.CreateAt.Day >= _startDate.Day).ToList();
+                listOrderDetail = listOrderDetail.Where(x => x.Order.CreateAt >= _startDate).ToList();
                 ViewBag.StartDate = _startDate.ToShortDateString();
             }
             if (endDate != null)
             {
-                listOrderDetail = listOrderDetail.Where(x => x.Order.CreateAt.Day <= _endDate.Day).ToList();
+                _endDate = _endDate.AddSeconds(86399);
+                listOrderDetail = listOrderDetail.Where(x => x.Order.CreateAt <= _endDate).ToList();
                 ViewBag.EndDate = _endDate.ToShortDateString();
             }
 
@@ -123,7 +124,7 @@ namespace DigitalShop.Areas.Admin.Controllers
         public IActionResult GetOrderSumary(DateTime? startDate, DateTime? endDate)
         {
             var listOrderSumary = orderRepository.GetListOrder()
-                .Where(x=>x.Status == "Approved")
+                .Where(x=>x.Status == StatusOrder.APPROVED)
                 .Select(x => new OrderViewModel
                 {
                     Id = x.Id,
@@ -143,12 +144,13 @@ namespace DigitalShop.Areas.Admin.Controllers
             var _endDate = endDate != null ? (DateTime)endDate : DateTime.Now;
             if (startDate!=null)
             {
-                listOrderSumary = listOrderSumary.Where(x => x.CreateAt.Day >= _startDate.Day).ToList();
+                listOrderSumary = listOrderSumary.Where(x => x.CreateAt >= _startDate).ToList();
                 ViewBag.StartDate = _startDate.ToShortDateString();
             }
             if (endDate != null)
             {
-                listOrderSumary = listOrderSumary.Where(x => x.CreateAt.Day <= _endDate.Day).ToList();
+                _endDate = _endDate.AddSeconds(86399);
+                listOrderSumary = listOrderSumary.Where(x => x.CreateAt <= _endDate).ToList();
                 ViewBag.EndDate = _endDate.ToShortDateString();
             }
 

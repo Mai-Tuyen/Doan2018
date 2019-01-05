@@ -47,6 +47,18 @@ namespace DigitalShop.Controllers
             }
             ViewBag.CountProduct = cartList.Count;
             ViewBag.TotalPrice = totalPrice;
+
+            var customer = customerRepository.GetListCustomer()
+                .Where(x => x.UserName == _httpContextAccessor.HttpContext.Request.Cookies["emailCustomer"]).FirstOrDefault();
+            ViewBag.ShipName = "";
+            ViewBag.ShipMobile = "";
+            ViewBag.ShipAddress = "";
+            if (customer != null)
+            {
+                ViewBag.ShipName = customer.DisplayName;
+                ViewBag.ShipMobile = customer.Phone;
+                ViewBag.ShipAddress = customer.Address;
+            }
             return PartialView("_CheckOut", cartList);
         }
 
@@ -58,6 +70,7 @@ namespace DigitalShop.Controllers
 
             var customer = customerRepository.GetListCustomer()
                 .Where(x => x.UserName == _httpContextAccessor.HttpContext.Request.Cookies["emailCustomer"]).FirstOrDefault();
+            
             if (customer!=null)
             {
                 newOrder.CustomerId = customer.Id;

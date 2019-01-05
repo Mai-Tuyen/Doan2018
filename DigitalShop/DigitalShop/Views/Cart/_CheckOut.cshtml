@@ -41,7 +41,7 @@
                                 <thead>
                                     <tr>
                                         <th>Product</th>
-                                        <th>Quality</th>
+                                        <th>Quantity</th>
                                         <th>Image</th>
                                         <th>Price</th>
                                     </tr>
@@ -75,17 +75,17 @@
                                 <div class="information-wrapper">
                                     <div class="first-row">
                                         <div class="controls form-group">
-                                            <input class="billing-address-name form-control" type="text" id="shipName" name="shipName" placeholder="Full Name" required="">
+                                            <input class="billing-address-name form-control" type="text" id="shipName" name="shipName" placeholder="Full Name" required="" value="@ViewBag.ShipName">
                                         </div>
                                         <div class="w3_agileits_card_number_grids">
                                             <div class="w3_agileits_card_number_grid_left form-group">
                                                 <div class="controls">
-                                                    <input type="number" class="form-control" placeholder="Mobile Number" id="shipMobile" name="shipMobile" required="">
+                                                    <input type="number" class="form-control" placeholder="Mobile Number" id="shipMobile" name="shipMobile" required="" value="@ViewBag.ShipMobile">
                                                 </div>
                                             </div>
                                             <div class="w3_agileits_card_number_grid_right form-group">
                                                 <div class="controls">
-                                                    <input type="text" class="form-control" placeholder="Address" id="shipAddress" name="shipAddress" required="">
+                                                    <input type="text" class="form-control" placeholder="Address" id="shipAddress" name="shipAddress" required="" value="@ViewBag.ShipAddress">
                                                 </div>
                                             </div>
                                         </div>
